@@ -1,0 +1,111 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+main {
+    background: url(../img/background-hot.png) center center no-repeat;
+    background-color: #F5F5F5;
+}
+
+.main-wrapper {
+    max-width: 1180px;
+    margin: 0 auto;
+}
+
+.main-wrapper > div:first-child {
+    display: flex;
+    justify-content: center;
+    padding: 5% 0 5% 0;
+}
+
+.main-wrapper > div:first-child > p:first-child {
+    font-family: "Montserrat-Regular", sans-serif;
+    font-size: 32pt;
+}
+
+.cards {
+    display: flex;
+    max-width: 1180px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1vh;
+    padding: 0 0 5% 0;
+}
+
+.container1 > p, .container2 > p, .container3 > p {
+    font-size: 16pt;
+    padding: 1% 0 1% 0;
+}
+
+.container1 > div, .container2 > div, .container3 > div {
+    background-color: #ffffff;
+    border-radius: 30px;
+}
+
+.container1 > div > p, .container2 > div > p, .container3 > div > p {
+    font-size: 16pt;
+    text-align: center;
+}
+
+.container1 > a, .container2 > a, .container3 > a {
+    font-size: 18pt;
+    border: 1px solid red;
+    border-radius: 30px;
+    margin: 2% 0 0 0;
+    padding: 5% 10%;
+    text-align: center;
+    background-color: #FFFFFF;
+}
+
+.container1, .container2, .container3 {
+    background-color: #E5E5E5;
+    display: flex;
+    flex-direction: column;
+    width: 379px;
+    border-radius: 30px;
+}
+
+.image-container1, .image-container2, .image-container3 {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 10px;
+    width: 379px;
+    height: 300px;
+    display: flex;
+    align-items: end;
+    justify-content: left;
+}
+
+.image-container1 > p, .image-container2 > p, .image-container3 > p {
+    color: #ffffff;
+    font-size: 16pt;
+    padding: 5% 0 5% 5%;
+}
+
+.image-container1 {
+    background-image: url('../img/wdchua.png');
+}
+
+.image-container2 {
+    background-image: url('../img/mna.png');
+}
+
+.image-container3 {
+    background-image: url('../img/ga.png');
+}
+
+@media (min-width: 1921px) {
+    .cards {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 1154px) {
+    .cards {
+        justify-content: center;
+    }
+}

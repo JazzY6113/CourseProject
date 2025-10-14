@@ -1,0 +1,93 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+main {
+    background: url(../img/background-glawnaya.png)no-repeat center;
+    background-size: cover;
+    width: 100%;
+    height: 100vh;
+    background-color: #F5F5F5;
+}
+
+.main-wrapper {
+    max-width: 1180px;
+    margin: 0 auto;
+}
+
+.main-wrapper > div > p {
+    text-align: center;
+    font-size: 76pt;
+    padding: 5% 0 0 0;
+    font-family: "Montserrat-Regular", sans-serif;
+}
+
+.main-wrapper > div:last-child {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10%;
+}
+
+.main-wrapper > div:last-child > div:last-child {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+}
+
+.main-wrapper > div:last-child > div:first-child > p {
+    font-size: 18pt;
+    line-height: 150%;
+}
+
+.main-wrapper > div:last-child > div:last-child > a {
+    font-size: 18pt;
+    border: 1px solid red;
+    border-radius: 30px;
+    margin: 2% 0 0 0;
+    padding: 5% 10%;
+    text-align: center;
+}
+
+@media (max-width: 850px) {
+    main {
+        height: 70vh;
+    }
+
+    .main-wrapper {
+        gap: 10px;
+    }
+
+    .main-wrapper > div > p {
+        font-size: 50pt;
+    }
+
+    .main-wrapper > div:last-child {
+        flex-direction: column;
+    }
+
+    .main-wrapper > div:first-child > p {
+        font-size: 30pt;
+    }
+
+    .main-wrapper > div:last-child > div:first-child > p {
+        font-size: 14pt;
+    }
+
+    .main-wrapper > div:last-child > div:last-child > a {
+        font-size: 14pt;
+    }
+
+    .main-wrapper > div:last-child > div:last-child > a {
+        color: white;
+        background-color: red;
+    }
+}
+
+@media (max-width: 700px) {
+    .main-wrapper > div:last-child > div:first-child {
+        padding: 5% 0 5% 0;
+    }
+}

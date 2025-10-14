@@ -1,0 +1,92 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+main {
+    background-color: #F5F5F5;
+}
+
+.main-wrapper {
+    max-width: 1180px;
+    margin: 0 auto;
+}
+
+.main-wrapper > div:first-child {
+    display: flex;
+    justify-content: center;
+    padding: 5% 0 5% 0;
+}
+
+.main-wrapper > div:first-child > p:first-child {
+    font-family: "Montserrat-Regular", sans-serif;
+    font-size: 32pt;
+}
+
+.reviews {
+    display: flex;
+    max-width: 1180px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1vh;
+    padding: 0 0 5% 0;
+}
+
+.review {
+    display: flex;
+    flex-direction: column;
+    width: 380px;
+    height: 354px;
+    background-color: #E5E5E5;
+    border-radius: 10px;
+    gap: 1%;
+}
+
+.review > div:first-child > img {
+    width: 100px;
+    height: 100px;
+    border-radius: 360px;
+}
+
+.review > div:first-child > div > p:first-child {
+    font-size: 16pt;
+}
+
+.review > div:first-child > div > p:last-child {
+    font-size: 12pt;
+    text-align: center;
+}
+
+.review > div {
+    display: flex;
+    justify-content: space-between;
+    padding: 2% 7%;
+}
+
+.review > div:last-child > div > img {
+    width: 24px;
+    height: 24px;
+}
+
+.review > p {
+    padding: 2% 7%;
+}
+
+.review > div:nth-child(2) > p {
+    font-family: "Montserrat-Medium", sans-serif;
+    font-size: 11pt;
+}
+
+@media (min-width: 1921px) {
+    .reviews {
+        justify-content: center;
+    }
+}
+
+@media  (max-width: 1175px) {
+    .reviews {
+        justify-content: center;
+    }
+}
