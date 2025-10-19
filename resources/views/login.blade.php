@@ -34,7 +34,8 @@
                         </button>
                     </div>
 
-                    <div style="margin-top: 20px;">
+                    <div style="margin-top: 20px; text-align: center;">
+                        <p><a href="{{ route('password.request') }}">Забыли пароль?</a></p>
                         <p>Нет аккаунта? <a href="{{ route('register') }}">Зарегистрироваться</a></p>
                     </div>
                 </div>

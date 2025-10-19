@@ -23,8 +23,9 @@
             <a href="{{ url('/reviews') }}">отзывы</a>
             <a href="{{ url('/contact') }}">контакты</a>
             @auth
+                <a href="{{ route('profile') }}">личный кабинет ({{ Auth::user()->first_name }})</a>
                 <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                    выход ({{ Auth::user()->first_name }})
+                    выход
                 </a>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     @csrf

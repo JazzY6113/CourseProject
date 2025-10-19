@@ -5,6 +5,8 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PasswordResetController;
 
 // ==========================
 // Публичные страницы
@@ -51,3 +53,30 @@ Route::post('/email/verification-notification', [AuthController::class, 'resendV
 Route::get('/mars-na-altae', [PageController::class, 'marsNaAltae'])->name('mars-na-altae');
 Route::get('/v-dolinu-chulishman-urochishu-ak-kurum', [PageController::class, 'vDolinuChulishman'])->name('v-dolinu-chulishman');
 Route::get('/gori-altaya', [PageController::class, 'goriAltaya'])->name('gori-altaya');
+
+// ==========================
+// Восстановление пароля
+// ==========================
+Route::get('/forgot-password', [PasswordResetController::class, 'showForgotForm'])
+    ->middleware('guest')
+    ->name('password.request');
+
+Route::post('/forgot-password', [PasswordResetController::class, 'sendResetLink'])
+    ->middleware('guest')
+    ->name('password.email');
+
+Route::get('/reset-password/{token}', [PasswordResetController::class, 'showResetForm'])
+    ->middleware('guest')
+    ->name('password.reset');
+
+Route::post('/reset-password', [PasswordResetController::class, 'resetPassword'])
+    ->middleware('guest')
+    ->name('password.update');
+
+// ==========================
+// Личный кабинет
+// ==========================
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
+    Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+});
