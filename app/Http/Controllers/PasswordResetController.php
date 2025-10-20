@@ -39,26 +39,31 @@ class PasswordResetController extends Controller
     public function resetPassword(Request $request)
     {
         $request->validate([
-            'token' => 'required',
-            'email' => 'required|email',
-            'password' => 'required|min:6|confirmed',
+            'token' => ['required'],
+            'email' => ['required', 'email'],
+            'password' => ['required', 'confirmed', 'min:8'],
         ]);
 
-        $status = Password::reset(
+        $status = \Illuminate\Support\Facades\Password::reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function ($user, $password) {
+                // У тебя в БД поле называется password_hash, а не password
                 $user->forceFill([
-                    'password' => Hash::make($password),
-                    'remember_token' => Str::random(60),
+                    'password_hash' => \Illuminate\Support\Facades\Hash::make($password),
                 ])->save();
 
-                event(new PasswordReset($user));
-                Auth::login($user);
+                event(new \Illuminate\Auth\Events\PasswordReset($user));
             }
         );
 
-        return $status === Password::PASSWORD_RESET
-            ? redirect()->route('home')->with('success', 'Пароль успешно изменён!')
-            : back()->withErrors(['email' => [__($status)]]);
+        if ($status == \Illuminate\Support\Facades\Password::PASSWORD_RESET) {
+            // После успешной смены — на страницу входа
+            return redirect()
+                ->route('login')
+                ->with('success', 'Пароль успешно изменён! Теперь вы можете войти.');
+        }
+
+        // Если что-то пошло не так — вернём обратно с ошибкой
+        return back()->withErrors(['email' => __($status)]);
     }
 }

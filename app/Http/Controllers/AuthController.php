@@ -14,7 +14,7 @@ use Illuminate\Validation\ValidationException;
 class AuthController extends Controller
 {
     /**
-     * Показать форму регистрации
+     * Показ формы регистрации.
      */
     public function showRegistrationForm()
     {
@@ -22,58 +22,51 @@ class AuthController extends Controller
     }
 
     /**
-     * Обработка регистрации
+     * Обработка регистрации с валидацией и CSRF.
      */
     public function register(Request $request)
     {
-        $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'patronymic' => 'nullable|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        // ---- ВАЛИДАЦИЯ ----
+        $validated = $request->validate([
+            'first_name'    => ['required', 'string', 'max:255'],
+            'last_name'     => ['required', 'string', 'max:255'],
+            'patronymic'    => ['nullable', 'string', 'max:255'],
+            'email'         => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
+            'password'      => ['required', 'confirmed', Rules\Password::defaults()],
+        ], [
+            'first_name.required'   => 'Введите имя.',
+            'last_name.required'    => 'Введите фамилию.',
+            'email.required'        => 'Введите e-mail.',
+            'email.email'           => 'Введите корректный e-mail.',
+            'email.unique'          => 'Такой e-mail уже зарегистрирован.',
+            'password.required'     => 'Введите пароль.',
+            'password.confirmed'    => 'Пароли не совпадают.',
         ]);
 
-        // Получаем или создаем роль "user"
-        $userRole = $this->getOrCreateUserRole();
+        // ---- РОЛЬ ПОЛЬЗОВАТЕЛЯ ----
+        $role = Role::firstOrCreate(['role_name' => 'user']);
 
+        // ---- СОЗДАНИЕ ПОЛЬЗОВАТЕЛЯ ----
         $user = User::create([
-            'role_id' => $userRole->id,
-            'password_hash' => Hash::make($request->password),
-            'email' => $request->email,
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'patronymic' => $request->patronymic,
-            'is_email_verified' => false,
+            'role_id'          => $role->id,
+            'first_name'       => $validated['first_name'],
+            'last_name'        => $validated['last_name'],
+            'patronymic'       => $validated['patronymic'] ?? null,
+            'email'            => $validated['email'],
+            'password_hash'    => Hash::make($validated['password']),
+            'is_email_verified'=> false,
         ]);
 
-        // Отправляем email верификации
+        // ---- ОТПРАВКА EMAIL ВЕРИФИКАЦИИ ----
         event(new Registered($user));
 
-        // НЕ логиним пользователя сразу - ждем подтверждения email
-        // Auth::login($user);
-
-        return redirect()->route('verification.notice');
+        // ---- НЕ ЛОГИНИМ ДО ПОДТВЕРЖДЕНИЯ ----
+        return redirect()->route('verification.notice')
+            ->with('status', 'Проверьте почту для подтверждения e-mail.');
     }
 
     /**
-     * Получить или создать роль "user"
-     */
-    private function getOrCreateUserRole()
-    {
-        $userRole = Role::where('role_name', 'user')->first();
-
-        if (!$userRole) {
-            $userRole = Role::create([
-                'role_name' => 'user'
-            ]);
-        }
-
-        return $userRole;
-    }
-
-    /**
-     * Показать форму входа
+     * Показ формы входа.
      */
     public function showLoginForm()
     {
@@ -81,47 +74,58 @@ class AuthController extends Controller
     }
 
     /**
-     * Обработка входа
+     * Авторизация с валидацией и проверкой подтверждения почты.
      */
     public function login(Request $request)
     {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
+        // ---- ВАЛИДАЦИЯ ----
+        $credentials = $request->validate([
+            'email'     => ['required', 'email'],
+            'password'  => ['required', 'string'],
+        ], [
+            'email.required'    => 'Введите e-mail.',
+            'email.email'       => 'Неверный формат e-mail.',
+            'password.required' => 'Введите пароль.',
         ]);
 
-        $user = User::where('email', $request->email)->first();
+        // ---- ПОИСК ПОЛЬЗОВАТЕЛЯ ----
+        $user = User::where('email', $credentials['email'])->first();
 
-        if (!$user || !Hash::check($request->password, $user->password_hash)) {
+        // ---- ПРОВЕРКА УЧЕТНЫХ ДАННЫХ ----
+        if (!$user || !Hash::check($credentials['password'], $user->password_hash)) {
             throw ValidationException::withMessages([
-                'email' => ['Неверные учетные данные'],
+                'email' => 'Неверный e-mail или пароль.',
             ]);
         }
 
-        // Проверяем верификацию email
+        // ---- ПРОВЕРКА ВЕРИФИКАЦИИ ----
         if (!$user->hasVerifiedEmail()) {
-            Auth::login($user); // Логиним чтобы показать страницу верификации
-            return redirect()->route('verification.notice');
+            Auth::login($user); // временный вход
+            return redirect()->route('verification.notice')
+                ->with('status', 'Подтвердите e-mail, чтобы продолжить.');
         }
 
+        // ---- ВХОД И РЕГЕНЕРАЦИЯ СЕССИИ ----
         Auth::login($user);
+        $request->session()->regenerate();
 
-        return redirect()->intended('/');
+        return redirect()->intended('/')->with('success', 'Добро пожаловать!');
     }
 
     /**
-     * Выход пользователя
+     * Выход.
      */
     public function logout(Request $request)
     {
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('/');
+
+        return redirect('/')->with('success', 'Вы вышли из аккаунта.');
     }
 
     /**
-     * Показать страницу подтверждения email
+     * Страница уведомления о подтверждении e-mail.
      */
     public function showVerificationNotice()
     {
@@ -129,7 +133,7 @@ class AuthController extends Controller
     }
 
     /**
-     * Повторная отправка письма подтверждения
+     * Повторная отправка письма подтверждения.
      */
     public function resendVerificationEmail(Request $request)
     {
@@ -139,6 +143,6 @@ class AuthController extends Controller
 
         $request->user()->sendEmailVerificationNotification();
 
-        return back()->with('status', 'Ссылка для подтверждения отправлена!');
+        return back()->with('status', 'Ссылка для подтверждения повторно отправлена!');
     }
 }
