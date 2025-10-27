@@ -1,0 +1,61 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+main {
+    background-size: cover;
+    width: 100%;
+    height: 100vh;
+    background-color: #F5F5F5;
+}
+
+.main-wrapper {
+    max-width: 1180px;
+    margin: 0 auto;
+}
+
+.main-wrapper > div:first-child {
+    display: flex;
+    justify-content: center;
+    padding: 5% 0 5% 0;
+}
+
+.main-wrapper > div:first-child > p:first-child {
+    font-family: "Montserrat-Regular", sans-serif;
+    font-size: 32pt;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    padding: 3% 0 0 0;
+}
+
+fieldset {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    background-color: white;
+    border-radius: 10px;
+    width: 35vw;
+    height: 100%;
+}
+
+input {
+    width: 100%;
+    padding: 5%;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+@media (max-width: 850px) {
+    main {
+        height: 70vh;
+    }
+
+    .main-wrapper {
+        gap: 10px;
+    }
+}

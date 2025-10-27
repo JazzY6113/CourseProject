@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Notifications\VerifyEmailNotification;
+use Illuminate\Support\Facades\Storage; // ДОБАВЬТЕ ЭТОТ ИМПОРТ
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -51,6 +52,39 @@ class User extends Authenticatable implements MustVerifyEmail
         ];
     }
 
+    /**
+     * Get the user's avatar URL
+     */
+    public function getAvatarUrlAttribute()
+    {
+        if ($this->avatar) {
+            return asset('storage/' . $this->avatar);
+        }
+
+        return asset('img/default-avatar.png'); // ИЗМЕНИТЕ НА default-avatar.png
+    }
+
+    /**
+     * Check if user has custom avatar
+     */
+    public function getHasCustomAvatarAttribute() // ИЗМЕНИТЕ НА АКСЕССОР
+    {
+        return !empty($this->avatar);
+    }
+
+    /**
+     * Delete user's avatar
+     */
+    public function deleteAvatar()
+    {
+        if ($this->avatar && Storage::disk('public')->exists($this->avatar)) {
+            Storage::disk('public')->delete($this->avatar);
+            $this->avatar = null;
+            $this->save();
+        }
+    }
+
+    // ОСТАЛЬНЫЕ МЕТОДЫ ОСТАЮТСЯ БЕЗ ИЗМЕНЕНИЙ
     /**
      * Get the role that owns the user.
      */
