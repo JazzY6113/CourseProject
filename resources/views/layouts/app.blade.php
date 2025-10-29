@@ -30,6 +30,9 @@
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     @csrf
                 </form>
+                @if(Auth::user()->role_id === 2)
+                    <li><a href="{{ route('admin.tours') }}">Админка</a></li>
+                @endif
             @else
                 <a href="{{ url('/login') }}">войти</a>
             @endauth

@@ -9,11 +9,6 @@ class Tour extends Model
 {
     use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
     protected $fillable = [
         'title',
         'short_description',
@@ -25,11 +20,6 @@ class Tour extends Model
         'max_group_size',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
     protected function casts(): array
     {
         return [
@@ -39,19 +29,59 @@ class Tour extends Model
         ];
     }
 
-    /**
-     * Get the tour dates for the tour.
-     */
     public function tourDates()
     {
         return $this->hasMany(TourDate::class);
     }
 
-    /**
-     * Get the bookings for the tour through tour dates.
-     */
     public function bookings()
     {
         return $this->hasManyThrough(Booking::class, TourDate::class);
+    }
+
+    // Добавляем связь с изображениями
+    public function images()
+    {
+        return $this->hasMany(TourImage::class)->orderBy('order_index');
+    }
+
+    // Получить горящие туры (3 ближайших по дате)
+    public static function getHotTours()
+    {
+        return self::where('is_active', true)
+            ->whereHas('tourDates', function($query) {
+                $query->where('start_date', '>', now())
+                    ->where('available_seats', '>', 0)
+                    ->orderBy('start_date');
+            })
+            ->with(['tourDates' => function($query) {
+                $query->where('start_date', '>', now())
+                    ->where('available_seats', '>', 0)
+                    ->orderBy('start_date')
+                    ->limit(1);
+            }])
+            ->get()
+            ->sortBy(function($tour) {
+                return $tour->tourDates->first()->start_date ?? now()->addYears(10);
+            })
+            ->take(3);
+    }
+
+    // Получить все активные туры
+    public static function getAllActiveTours()
+    {
+        return self::where('is_active', true)
+            ->with(['images', 'tourDates' => function($query) {
+                $query->where('start_date', '>', now())
+                    ->where('available_seats', '>', 0)
+                    ->orderBy('start_date');
+            }])
+            ->get();
+    }
+
+    // Получить основное изображение
+    public function getMainImageAttribute()
+    {
+        return $this->images->first()->image_path ?? null;
     }
 }

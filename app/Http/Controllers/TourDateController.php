@@ -36,13 +36,47 @@ class TourDateController extends Controller
             'end_date' => 'required|date|after:start_date',
             'available_seats' => 'required|integer|min:1',
             'current_price' => 'required|numeric|min:0',
+            'tour_date_status_id' => 'sometimes|exists:tour_date_statuses,id',
         ]);
 
         $tourDate = TourDate::create([
             ...$validated,
-            'tour_date_status_id' => 1, // Предполагаем, что 1 = "available"
+            'tour_date_status_id' => $validated['tour_date_status_id'] ?? 1, // По умолчанию "available"
         ]);
 
         return response()->json($tourDate, 201);
+    }
+
+    /**
+     * Обновить дату тура
+     * PUT /api/tour-dates/{id}
+     */
+    public function update(Request $request, $id): JsonResponse
+    {
+        $tourDate = TourDate::findOrFail($id);
+
+        $validated = $request->validate([
+            'start_date' => 'sometimes|date',
+            'end_date' => 'sometimes|date|after:start_date',
+            'available_seats' => 'sometimes|integer|min:0',
+            'current_price' => 'sometimes|numeric|min:0',
+            'tour_date_status_id' => 'sometimes|exists:tour_date_statuses,id',
+        ]);
+
+        $tourDate->update($validated);
+
+        return response()->json($tourDate);
+    }
+
+    /**
+     * Удалить дату тура
+     * DELETE /api/tour-dates/{id}
+     */
+    public function destroy($id): JsonResponse
+    {
+        $tourDate = TourDate::findOrFail($id);
+        $tourDate->delete();
+
+        return response()->json(null, 204);
     }
 }

@@ -54,10 +54,6 @@ header {
     align-items: center;
 }
 
-.header-nav > div {
-    width: 40%;
-}
-
 .menu {
     width: 80%;
     display: flex;
