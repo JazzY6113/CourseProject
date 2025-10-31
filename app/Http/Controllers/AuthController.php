@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Role;
+use App\Rules\CyrillicName;
+use App\Rules\StrongPassword;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -26,13 +28,13 @@ class AuthController extends Controller
      */
     public function register(Request $request)
     {
-        // ---- ВАЛИДАЦИЯ ----
+        // ---- ВАЛИДАЦИЯ С РЕГУЛЯРНЫМИ ВЫРАЖЕНИЯМИ ----
         $validated = $request->validate([
-            'first_name'    => ['required', 'string', 'max:255'],
-            'last_name'     => ['required', 'string', 'max:255'],
-            'patronymic'    => ['nullable', 'string', 'max:255'],
+            'first_name'    => ['required', 'string', 'max:255', new CyrillicName],
+            'last_name'     => ['required', 'string', 'max:255', new CyrillicName],
+            'patronymic'    => ['nullable', 'string', 'max:255', 'regex:/^[А-ЯЁ][а-яё]{0,29}$|^$/u'],
             'email'         => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
-            'password'      => ['required', 'confirmed', Rules\Password::defaults()],
+            'password'      => ['required', 'confirmed', Rules\Password::defaults(), new StrongPassword],
         ], [
             'first_name.required'   => 'Введите имя.',
             'last_name.required'    => 'Введите фамилию.',
@@ -41,6 +43,7 @@ class AuthController extends Controller
             'email.unique'          => 'Такой e-mail уже зарегистрирован.',
             'password.required'     => 'Введите пароль.',
             'password.confirmed'    => 'Пароли не совпадают.',
+            'patronymic.regex'      => 'Отчество должно содержать только кириллические символы и начинаться с заглавной буквы.',
         ]);
 
         // ---- РОЛЬ ПОЛЬЗОВАТЕЛЯ ----
@@ -80,11 +83,12 @@ class AuthController extends Controller
     {
         // ---- ВАЛИДАЦИЯ ----
         $credentials = $request->validate([
-            'email'     => ['required', 'email'],
+            'email'     => ['required', 'email', 'regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/'],
             'password'  => ['required', 'string'],
         ], [
             'email.required'    => 'Введите e-mail.',
             'email.email'       => 'Неверный формат e-mail.',
+            'email.regex'       => 'Введите корректный e-mail адрес.',
             'password.required' => 'Введите пароль.',
         ]);
 

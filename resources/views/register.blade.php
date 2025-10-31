@@ -4,6 +4,7 @@
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/register.css') }}">
+    <script src="{{ asset('js/validation.js') }}"></script>
 @endsection
 
 @section('content')
@@ -47,10 +48,8 @@
                             соглашаетесь
                             <a href="">c политикой конфиденциальности</a>.
                         </p>
-                        <button type="submit" style="background: none; border: none; cursor: pointer;">
-                            <a style="font-size: 18pt; border: 1px solid red; border-radius: 30px; margin: 2% 0 0 0; padding: 3% 7%; text-align: center; display: inline-block; text-decoration: none;">
-                                Зарегистрироваться
-                            </a>
+                        <button type="submit">
+                            <a>Зарегистрироваться</a>
                         </button>
                     </div>
 

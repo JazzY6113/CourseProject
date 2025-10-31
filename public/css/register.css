@@ -8,7 +8,6 @@ main {
     background: url(../img/registr.png) center;
     background-color: #F5F5F5;
     height: 130vh;
-    width: 100vw;
 }
 
 .main-wrapper {
@@ -64,6 +63,23 @@ fieldset {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+div > button > a {
+    font-size: 18pt;
+    border: 1px solid red;
+    border-radius: 30px;
+    margin: 2% 0 0 0;
+    padding: 3% 7%;
+    text-align: center;
+    display: inline-block;
+    text-decoration: none;
 }
 
 @media (max-width: 1000px) {

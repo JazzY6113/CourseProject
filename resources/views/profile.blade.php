@@ -4,6 +4,7 @@
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/profile.css') }}">
+    <script src="{{ asset('js/validation.js') }}"></script>
 @endsection
 
 @section('content')
@@ -22,7 +23,7 @@
             </div>
         @endif
 
-        <form method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ url('/profile/update') }}" enctype="multipart/form-data">
             @csrf
             <fieldset>
                 <div style="margin-bottom:20px;">
@@ -87,7 +88,7 @@
                 <div style="margin-bottom:15px;">
                     <label for="email" style="display:block;margin-bottom:5px;font-weight:bold;">E-mail:</label>
                     <input type="email" name="email" id="email" value="{{ old('email', $user->email) }}"
-                           placeholder="E-mail" required style="width:100%;padding:8px;border:1px solid #ddd;border-radius:4px;">
+                           placeholder="E-mail" required style="width:100%;padding:8px;border:1px solid #ddd;border-radius:4px;" readonly>
                     @error('email')
                     <span style="color:#dc3545;font-size:14px;">{{ $message }}</span>
                     @enderror

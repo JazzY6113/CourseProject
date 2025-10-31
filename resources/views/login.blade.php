@@ -4,6 +4,7 @@
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/login.css') }}">
+    <script src="{{ asset('js/validation.js') }}"></script>
 @endsection
 
 @section('content')
@@ -27,10 +28,8 @@
                     @enderror
 
                     <div>
-                        <button type="submit" style="background: none; border: none; cursor: pointer;">
-                            <a style="font-size: 18pt; border: 1px solid red; border-radius: 30px; margin: 2% 0 0 0; padding: 3% 7%; text-align: center; display: inline-block; text-decoration: none;">
-                                Войти
-                            </a>
+                        <button type="submit">
+                            <a>Войти</a>
                         </button>
                     </div>
 
