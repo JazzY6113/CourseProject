@@ -4,6 +4,7 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PasswordResetController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\TourController;
 use App\Http\Controllers\HotTourController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -85,4 +86,23 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/tours/{id}/edit', [TourController::class, 'edit'])->name('admin.tours.edit');
     Route::put('/admin/tours/{id}', [TourController::class, 'update'])->name('admin.tours.update');
     Route::delete('/admin/tours/{id}', [TourController::class, 'destroy'])->name('admin.tours.delete');
+});
+
+// ==========================
+// Отзывы
+// ==========================
+Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews');
+Route::middleware('auth')->group(function () {
+    Route::get('/reviews/create', [ReviewController::class, 'create'])->name('reviews.create');
+    Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
+});
+
+// ==========================
+// Админка отзывов
+// ==========================
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admin/reviews', [ReviewController::class, 'adminIndex'])->name('admin.reviews');
+    Route::post('/admin/reviews/{id}/approve', [ReviewController::class, 'approve'])->name('admin.reviews.approve');
+    Route::post('/admin/reviews/{id}/reject', [ReviewController::class, 'reject'])->name('admin.reviews.reject');
+    Route::delete('/admin/reviews/{id}', [ReviewController::class, 'destroy'])->name('admin.reviews.destroy');
 });

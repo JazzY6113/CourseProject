@@ -12,15 +12,24 @@
 
         .admin-header {
             display: flex;
-            justify-content: between;
+            justify-content: space-between;
             align-items: center;
             margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
         }
 
         .admin-title {
             font-size: 28px;
             font-weight: bold;
             color: #333;
+            margin: 0;
+        }
+
+        .admin-actions {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
         }
 
         .create-btn {
@@ -30,10 +39,39 @@
             text-decoration: none;
             border-radius: 5px;
             transition: background 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
         }
 
         .create-btn:hover {
             background: #0056b3;
+            color: white;
+            text-decoration: none;
+        }
+
+        .reviews-btn {
+            background: #28a745;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .reviews-btn:hover {
+            background: #218838;
+            color: white;
+            text-decoration: none;
         }
 
         .tours-table {
@@ -87,6 +125,13 @@
             text-decoration: none;
             border-radius: 4px;
             font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        .edit-btn:hover {
+            background: #e0a800;
+            color: #212529;
+            text-decoration: none;
         }
 
         .delete-btn {
@@ -97,6 +142,11 @@
             border-radius: 4px;
             cursor: pointer;
             font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        .delete-btn:hover {
+            background: #c82333;
         }
 
         .delete-form {
@@ -108,6 +158,32 @@
             padding: 40px;
             color: #666;
         }
+
+        @media (max-width: 768px) {
+            .admin-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .admin-actions {
+                width: 100%;
+                justify-content: flex-start;
+            }
+
+            .action-btns {
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            .tours-table {
+                font-size: 14px;
+            }
+
+            .tours-table th,
+            .tours-table td {
+                padding: 8px 10px;
+            }
+        }
     </style>
 @endsection
 
@@ -115,7 +191,14 @@
     <div class="admin-container">
         <div class="admin-header">
             <h1 class="admin-title">Управление турами</h1>
-            <a href="{{ route('admin.tours.create') }}" class="create-btn">+ Создать тур</a>
+            <div class="admin-actions">
+                <a href="{{ route('admin.reviews') }}" class="reviews-btn">
+                    📝 Модерация отзывов
+                </a>
+                <a href="{{ route('admin.tours.create') }}" class="create-btn">
+                    ➕ Создать тур
+                </a>
+            </div>
         </div>
 
         @if(session('success'))
