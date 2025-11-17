@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Подтверждение регистрации - Nomadic Tour</title>
+    <link rel="stylesheet" href="{{ asset('css/emails/verify.css') }}">
 </head>
 <body style="font-family: Arial, sans-serif; background: #fafafa; padding: 30px;">
 <div style="max-width: 600px; margin: 0 auto; background: #fff; border-radius: 10px; padding: 30px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">

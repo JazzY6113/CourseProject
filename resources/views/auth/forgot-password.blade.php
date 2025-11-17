@@ -2,6 +2,10 @@
 
 @section('title', 'Восстановление пароля')
 
+@section('styles')
+    <link rel="stylesheet" href="{{ asset('css/login.css') }}">
+@endsection
+
 @section('content')
     <div class="main-wrapper">
         <form method="POST" action="{{ route('password.email') }}">

@@ -1,0 +1,84 @@
+.review-form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.star-rating {
+    display: flex;
+    gap: 10px;
+    margin: 10px 0;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+}
+
+.star-rating input {
+    display: none;
+}
+
+.star-rating label {
+    font-size: 30px;
+    color: #ddd;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.star-rating label:hover,
+.star-rating label:hover ~ label,
+.star-rating input:checked ~ label {
+    color: #ffc107;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-control {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+textarea.form-control {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.btn-primary {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 16px;
+}
+
+.btn-primary:hover {
+    background: #0056b3;
+}
+
+span {
+    color: #dc3545;
+    font-size: 14px;
+}
+
+small {
+    color: #666;
+}
+
+.form-note {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 4px;
+}

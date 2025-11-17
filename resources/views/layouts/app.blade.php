@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ asset('css/font.css') }}">
     <link rel="stylesheet" href="{{ asset('css/header-footer.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/layouts/app.css') }}">
     @yield('styles')
     <script src="{{ asset('js/scripts/header.js') }}" defer></script>
     <title>@yield('title', 'Nomadic Tour')</title>

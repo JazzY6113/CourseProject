@@ -79,6 +79,85 @@ main {
     font-size: 11pt;
 }
 
+.reviews-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.review {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.review-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.review-header img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 15px;
+}
+
+.review-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.review-meta p {
+    margin: 0;
+    font-weight: bold;
+    color: #333;
+}
+
+.stars {
+    display: flex;
+    gap: 5px;
+}
+
+.review-comment {
+    line-height: 1.6;
+    color: #555;
+    margin: 0;
+}
+
+.btn-primary {
+    background: #007bff;
+    color: white;
+    padding: 12px 24px;
+    text-decoration: none;
+    border-radius: 5px;
+    display: inline-block;
+    margin-bottom: 30px;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background: #0056b3;
+    color: white;
+    text-decoration: none;
+}
+
+.no-reviews {
+    text-align: center;
+    padding: 40px;
+    color: #666;
+}
+
 @media (min-width: 1921px) {
     .reviews {
         justify-content: center;
@@ -89,4 +168,27 @@ main {
     .reviews {
         justify-content: center;
     }
+}
+
+/*
+-----------------------------------------------------
+ */
+
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+p {
+    color: #666;
+    font-size: 1.1rem;
+}
+
+.reviews-container > div:nth-child(1) {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+a {
+    margin-top: 20px;
 }
