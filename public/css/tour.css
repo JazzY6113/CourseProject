@@ -15,13 +15,13 @@ main {
     margin: 0 auto;
 }
 
-.main-wrapper > div:first-child {
+.page-title {
     display: flex;
     justify-content: center;
     padding: 5% 0 5% 0;
 }
 
-.main-wrapper > div:first-child > p:first-child {
+.page-title p {
     font-family: "Montserrat-Regular", sans-serif;
     font-size: 32pt;
 }
@@ -36,68 +36,7 @@ main {
     padding: 0 0 5% 0;
 }
 
-.container1 > p,.container2 > p,.container3 > p,.container4 > p,.container5 > p,.container6 > p,.container7 > p,.container8 > p,.container9 > p {
-    font-size: 16pt;
-}
-
-.image-container1 {
-    background-image: url('../img/kto.png');
-}
-
-.image-container2 {
-    background-image: url('../img/ma.png');
-}
-
-.image-container3 {
-    background-image: url('../img/sga.png');
-}
-
-.image-container4 {
-    background-image: url('../img/mna.png');
-}
-
-.image-container5 {
-    background-image: url('../img/wdchua.png');
-}
-
-.image-container6 {
-    background-image: url('../img/ga.png');
-}
-
-.image-container7 {
-    background-image: url('../img/kpk.png');
-}
-
-.image-container8 {
-    background-image: url('../img/scha.png');
-}
-
-.image-container9 {
-    background-image: url('../img/sp.png');
-}
-
-.container1 > div,.container2 > div,.container3 > div,.container4 > div,.container5 > div,.container6 > div,.container7 > div,.container8 > div,.container9 > div {
-    background-color: #ffffff;
-    border-radius: 30px;
-    padding: 2% 0 2% 0;
-}
-
-.container1 > div > p, .container2 > div > p, .container3 > div > p, .container4 > div > p, .container5 > div > p, .container6 > div > p, .container7 > div > p, .container8 > div > p, .container9 > div > p {
-    font-size: 16pt;
-    text-align: center;
-}
-
-.container1 > a, .container2 > a, .container3 > a, .container4 > a, .container5 > a, .container6 > a, .container7 > a, .container8 > a, .container9 > a {
-    font-size: 18pt;
-    border: 1px solid red;
-    border-radius: 30px;
-    margin: 2% 0 0 0;
-    padding: 5% 10%;
-    text-align: center;
-    background-color: #FFFFFF;
-}
-
-.container1, .container2, .container3, .container4, .container5, .container6, .container7, .container8, .container9 {
+.tour-container {
     background-color: #E5E5E5;
     display: flex;
     flex-direction: column;
@@ -105,7 +44,12 @@ main {
     border-radius: 30px;
 }
 
-.image-container1, .image-container2, .image-container3, .image-container4, .image-container5, .image-container6, .image-container7, .image-container8, .image-container9 {
+.tour-container p {
+    font-size: 16pt;
+    padding: 10px 15px;
+}
+
+.tour-image {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -117,10 +61,47 @@ main {
     justify-content: left;
 }
 
-.image-container1 > p, .image-container2 > p, .image-container3 > p, .image-container4 > p, .image-container5 > p, .image-container6 > p, .image-container7 > p, .image-container8 > p, .image-container9 > p {
+.tour-image p {
     color: #ffffff;
     font-size: 16pt;
     padding: 5% 0 5% 5%;
+}
+
+.price-container {
+    background-color: #ffffff;
+    border-radius: 30px;
+    padding: 2% 0 2% 0;
+    margin: 10px 15px;
+}
+
+.price-container p {
+    font-size: 16pt;
+    text-align: center;
+    padding: 0;
+}
+
+.tour-link {
+    font-size: 18pt;
+    border: 1px solid red;
+    border-radius: 30px;
+    margin: 2% 15px 5% 15px;
+    padding: 5% 10%;
+    text-align: center;
+    background-color: #FFFFFF;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s ease;
+}
+
+.tour-link:hover {
+    background-color: #f8f8f8;
+}
+
+.no-tours {
+    text-align: center;
+    padding: 5% 0;
+    font-size: 18pt;
+    color: #666;
 }
 
 @media (min-width: 1921px) {
@@ -132,5 +113,21 @@ main {
 @media (max-width: 1172px) {
     .containers {
         justify-content: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .tour-container {
+        width: 100%;
+        max-width: 379px;
+    }
+
+    .tour-image {
+        width: 100%;
+        height: 250px;
+    }
+
+    .page-title p {
+        font-size: 24pt;
     }
 }

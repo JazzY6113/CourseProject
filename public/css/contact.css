@@ -13,13 +13,13 @@ main {
     margin: 0 auto;
 }
 
-.main-wrapper > div:first-child {
+.page-title {
     display: flex;
     justify-content: center;
     padding: 5% 0 5% 0;
 }
 
-.main-wrapper > div:first-child > p:first-child {
+.page-title p {
     font-family: "Montserrat-Regular", sans-serif;
     font-size: 32pt;
 }
@@ -32,12 +32,35 @@ main {
     flex-direction: column;
 }
 
-.first-line > div {
-    margin: 0 auto;
+.first-line {
     display: flex;
-    flex-wrap: wrap;
-    width: 25vw;
-    height: 25vh;
+    justify-content: center;
+}
+
+.map-container {
+    position: relative;
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+.map-link {
+    color: #eee;
+    font-size: 12px;
+    position: absolute;
+    top: 0px;
+    text-decoration: none;
+}
+
+.map-link:nth-child(2) {
+    top: 14px;
+}
+
+.map-iframe {
+    position: relative;
+    width: 700px;
+    height: 500px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
 }
 
 .last-line {
@@ -45,36 +68,98 @@ main {
     justify-content: space-evenly;
     padding: 5% 0 0 0;
     flex-wrap: wrap;
+    gap: 40px;
 }
 
-.last-line p {
+.contact-office {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 400px;
+}
+
+.office-info {
     font-size: 18pt;
+    line-height: 1.5;
+    margin-bottom: 10px;
 }
 
-.last-line > div {
-    gap: 5%;
-}
-
-.last-line > div > div {
+.contact-item {
     display: flex;
     align-items: center;
-    padding: 5% 0 0 0;
+    gap: 15px;
 }
 
-@media  (max-width: 900px) {
+.contact-icon {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+}
+
+.contact-text {
+    font-size: 16pt;
+    margin: 0;
+}
+
+@media (max-width: 900px) {
     .first-line {
         display: none;
     }
-
-
 
     .last-line {
         flex-direction: column;
         padding: 5% 0 5% 0;
         margin: 0 auto;
+        align-items: center;
+        gap: 30px;
     }
 
-    .last-line > div:first-child {
+    .contact-office:first-child {
         padding: 0 0 10% 0;
+    }
+
+    .office-info {
+        font-size: 16pt;
+        text-align: center;
+    }
+
+    .contact-text {
+        font-size: 14pt;
+    }
+}
+
+@media (max-width: 768px) {
+    .page-title p {
+        font-size: 24pt;
+    }
+
+    .contact-office {
+        max-width: 300px;
+    }
+
+    .office-info {
+        font-size: 14pt;
+    }
+
+    .contact-text {
+        font-size: 13pt;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-title p {
+        font-size: 20pt;
+    }
+
+    .contact-office {
+        max-width: 280px;
+    }
+
+    .office-info {
+        font-size: 13pt;
+    }
+
+    .contact-text {
+        font-size: 12pt;
     }
 }

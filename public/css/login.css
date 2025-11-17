@@ -15,13 +15,13 @@ main {
     margin: 0 auto;
 }
 
-form {
+.login-form {
     display: flex;
     flex-direction: column;
     padding: 3% 0 0 0;
 }
 
-fieldset {
+.form-fieldset {
     display: flex;
     flex-direction: column;
     margin: 0 auto;
@@ -31,14 +31,7 @@ fieldset {
     height: 100%;
 }
 
-.main-wrapper > form > fieldset > div > input {
-    width: 100%;
-    padding: 5%;
-    border-radius: 5px;
-    border: 1px solid #ddd;
-}
-
-.main-wrapper > form > fieldset > div {
+.form-container {
     display: flex;
     flex-direction: column;
     margin: 0 auto;
@@ -48,11 +41,103 @@ fieldset {
     padding: 5% 0 5% 0;
 }
 
-.main-wrapper > form > fieldset > div > div > p {
-    font-size: 10pt;
+.logo-link {
+    text-decoration: none;
 }
 
-.main-wrapper > form > fieldset > div > div > button a {
+.form-title {
+    font-size: 24pt;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.form-subtitle {
+    font-size: 14pt;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.form-input {
+    width: 100%;
+    padding: 5%;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 14pt;
+    transition: border-color 0.3s ease;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+.error-message {
+    color: red;
+    font-size: 12px;
+    width: 100%;
+    text-align: left;
+    margin-top: -5px;
+    margin-bottom: 5px;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.submit-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+.button-text {
+    font-size: 18pt;
+    border: 1px solid red;
+    border-radius: 30px;
+    padding: 3% 7%;
+    text-align: center;
+    background-color: white;
+    color: black;
+    text-decoration: none;
+    display: inline-block;
+    width: 100%;
+    transition: all 0.3s ease;
+}
+
+.button-text:hover {
+    background-color: red;
+    color: white;
+}
+
+.form-links {
+    margin-top: 20px;
+    text-align: center;
+    width: 100%;
+}
+
+.form-links p {
+    margin-bottom: 10px;
+    font-size: 12pt;
+}
+
+.link {
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.link:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+.form-actions > a {
     font-size: 18pt;
     border: 1px solid red;
     border-radius: 30px;
@@ -63,64 +148,63 @@ fieldset {
     color: black;
     text-decoration: none;
     display: inline-block;
+    transition: all 0.3s ease;
 }
 
-.main-wrapper > form > fieldset > div > div > button a:hover {
+.form-actions > a:hover {
     background-color: red;
     color: white;
 }
 
-.main-wrapper > form > fieldset > div > div {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-}
-
-button {
-    background: none;
-    border: none;
-    cursor: pointer;
-}
-
-button > a {
-    font-size: 18pt;
-    border: 1px solid red;
-    border-radius: 30px;
-    margin: 2% 0 0 0;
-    padding: 3% 7%;
-    text-align: center;
-    display: inline-block;
-    text-decoration: none;
-}
-
 @media (max-width: 1000px) {
-    fieldset {
+    .form-fieldset {
         width: 70vw;
     }
 
-    .main-wrapper > form > fieldset > div > div > button a {
+    .button-text,
+    .form-actions > a {
         font-size: 12pt;
     }
 }
 
 @media (max-width: 828px) {
-    .main-wrapper > form > fieldset > div > div {
+    .form-actions {
         flex-direction: column;
         gap: 10px;
     }
 
-    fieldset {
+    .form-fieldset {
         width: 70vw;
     }
 
-    .main-wrapper > form > fieldset > div > p {
+    .form-container > p {
         text-align: center;
     }
 }
 
 @media (max-width: 450px) {
-    fieldset {
+    .form-fieldset {
         width: 70vw;
+    }
+
+    .form-container {
+        width: 80%;
+    }
+
+    .form-title {
+        font-size: 20pt;
+    }
+
+    .form-subtitle {
+        font-size: 12pt;
+    }
+
+    .form-input {
+        font-size: 12pt;
+    }
+
+    .button-text {
+        font-size: 14pt;
+        padding: 4% 8%;
     }
 }

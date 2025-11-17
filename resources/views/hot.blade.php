@@ -8,26 +8,26 @@
 
 @section('content')
     <div class="main-wrapper">
-        <div>
+        <div class="page-title">
             <p>ГОРЯЩИЕ ТУРЫ</p>
         </div>
         @if(isset($tours) && $tours->count() > 0)
             <div class="containers">
                 @foreach($tours as $tour)
-                    <div class="container{{ ($loop->iteration % 9) + 1 }}">
-                        <div class="image-container{{ ($loop->iteration % 9) + 1 }}"
+                    <div class="tour-container container-{{ ($loop->iteration % 9) + 1 }}">
+                        <div class="tour-image image-container-{{ ($loop->iteration % 9) + 1 }}"
                              @if($tour->images->count() > 0)
-                                 style="background-image: url('{{ asset('storage/' . $tour->images->first()->image_path) }}')"
+                                 data-background-image="{{ asset('storage/' . $tour->images->first()->image_path) }}"
                              @else
-                                 style="background-image: url('{{ asset('img/default-tour.jpg') }}')"
+                                 data-background-image="{{ asset('img/default-tour.jpg') }}"
                             @endif>
-                            <p>{{ $tour->title }}</p>
+                            <p class="tour-title">{{ $tour->title }}</p>
                         </div>
-                        <p>{{ Str::limit($tour->short_description, 200) }}</p>
-                        <div>
-                            <p>{{ number_format($tour->price, 0, ',', ' ') }} руб</p>
+                        <p class="tour-description">{{ Str::limit($tour->short_description, 200) }}</p>
+                        <div class="price-container">
+                            <p class="tour-price">{{ number_format($tour->price, 0, ',', ' ') }} руб</p>
                         </div>
-                        <a href="{{ route('tour.detail', $tour->id) }}">СМОТРЕТЬ ТУР</a>
+                        <a href="{{ route('tour.detail', $tour->id) }}" class="tour-link">СМОТРЕТЬ ТУР</a>
                     </div>
                 @endforeach
             </div>

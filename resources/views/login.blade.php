@@ -9,33 +9,35 @@
 
 @section('content')
     <div class="main-wrapper">
-        <form method="POST" action="{{ route('login') }}">
+        <form method="POST" action="{{ route('login') }}" class="login-form">
             @csrf
-            <fieldset>
-                <div>
-                    <a href="{{ url('/') }}"><img src="{{ asset('img/Лого.svg') }}" alt="logo"></a>
-                    <p>Вход</p>
-                    <p>Введите свои данные</p>
+            <fieldset class="form-fieldset">
+                <div class="form-container">
+                    <a href="{{ url('/') }}" class="logo-link">
+                        <img src="{{ asset('img/Лого.svg') }}" alt="logo">
+                    </a>
+                    <p class="form-title">Вход</p>
+                    <p class="form-subtitle">Введите свои данные</p>
 
-                    <input type="email" id="email" name="email" placeholder="E-mail" value="{{ old('email') }}" required>
+                    <input type="email" id="email" name="email" placeholder="E-mail" value="{{ old('email') }}" required class="form-input">
                     @error('email')
-                    <span style="color: red; font-size: 12px;">{{ $message }}</span>
+                    <span class="error-message">{{ $message }}</span>
                     @enderror
 
-                    <input type="password" id="password" name="password" placeholder="Пароль" required>
+                    <input type="password" id="password" name="password" placeholder="Пароль" required class="form-input">
                     @error('password')
-                    <span style="color: red; font-size: 12px;">{{ $message }}</span>
+                    <span class="error-message">{{ $message }}</span>
                     @enderror
 
-                    <div>
-                        <button type="submit">
-                            <a>Войти</a>
+                    <div class="form-actions">
+                        <button type="submit" class="submit-button">
+                            <span class="button-text">Войти</span>
                         </button>
                     </div>
 
-                    <div style="margin-top: 20px; text-align: center;">
-                        <p><a href="{{ route('password.request') }}">Забыли пароль?</a></p>
-                        <p>Нет аккаунта? <a href="{{ route('register') }}">Зарегистрироваться</a></p>
+                    <div class="form-links">
+                        <p><a href="{{ route('password.request') }}" class="link">Забыли пароль?</a></p>
+                        <p>Нет аккаунта? <a href="{{ route('register') }}" class="link">Зарегистрироваться</a></p>
                     </div>
                 </div>
             </fieldset>

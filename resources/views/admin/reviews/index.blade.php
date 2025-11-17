@@ -2,84 +2,88 @@
 
 @section('title', 'Модерация отзывов - Nomadic Tour')
 
-@section('content')
-    <div class="main-wrapper" style="max-width: 1200px; margin: auto; padding: 20px;">
-        <h1>Модерация отзывов</h1>
+@section('styles')
+    <link rel="stylesheet" href="{{ asset('css/admin/reviews.css') }}">
+@endsection
 
-        <div style="margin-bottom: 40px;">
-            <h2>Ожидающие модерации ({{ $pendingReviews->count() }})</h2>
+@section('content')
+    <div class="reviews-container">
+        <h1 class="reviews-title">Модерация отзывов</h1>
+
+        <div class="reviews-section">
+            <h2 class="section-title">Ожидающие модерации ({{ $pendingReviews->count() }})</h2>
 
             @forelse($pendingReviews as $review)
-                <div style="border: 1px solid #ddd; padding: 20px; margin-bottom: 20px; border-radius: 5px;">
-                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px;">
-                        <div>
-                            <strong>{{ $review->user->first_name }} {{ $review->user->last_name }}</strong>
+                <div class="review-card review-card--pending">
+                    <div class="review-header">
+                        <div class="review-info">
+                            <strong class="review-author">{{ $review->user->first_name }} {{ $review->user->last_name }}</strong>
                             <br>
-                            <small>{{ $review->created_at->format('d.m.Y H:i') }}</small>
+                            <small class="review-date">{{ $review->created_at->format('d.m.Y H:i') }}</small>
                             <br>
-                            <strong>Тур: {{ $review->tour->title }}</strong>
+                            <strong class="review-tour">Тур: {{ $review->tour->title }}</strong>
                             <br>
-                            <div style="color: #ffc107;">
+                            <div class="review-rating">
                                 @for($i = 1; $i <= 5; $i++)
                                     {{ $i <= $review->rating ? '★' : '☆' }}
                                 @endfor
                                 ({{ $review->rating }}/5)
                             </div>
                         </div>
-                        <div style="display: flex; gap: 10px;">
-                            <form method="POST" action="{{ route('admin.reviews.approve', $review->id) }}">
+                        <div class="review-actions">
+                            <form method="POST" action="{{ route('admin.reviews.approve', $review->id) }}" class="action-form">
                                 @csrf
-                                <button type="submit" style="background: #28a745; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;">
+                                <button type="submit" class="btn btn--approve">
                                     Опубликовать
                                 </button>
                             </form>
-                            <form method="POST" action="{{ route('admin.reviews.reject', $review->id) }}">
+                            <form method="POST" action="{{ route('admin.reviews.reject', $review->id) }}" class="action-form">
                                 @csrf
-                                <button type="submit" style="background: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;">
+                                <button type="submit" class="btn btn--reject">
                                     Отклонить
                                 </button>
                             </form>
                         </div>
                     </div>
-                    <p>{{ $review->comment }}</p>
+                    <p class="review-comment">{{ $review->comment }}</p>
                 </div>
             @empty
-                <p>Нет отзывов, ожидающих модерации.</p>
+                <p class="no-reviews">Нет отзывов, ожидающих модерации.</p>
             @endforelse
         </div>
 
-        <div>
-            <h2>Опубликованные отзывы ({{ $approvedReviews->count() }})</h2>
+        <div class="reviews-section">
+            <h2 class="section-title">Опубликованные отзывы ({{ $approvedReviews->count() }})</h2>
 
             @forelse($approvedReviews as $review)
-                <div style="border: 1px solid #ddd; padding: 20px; margin-bottom: 20px; border-radius: 5px;">
-                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px;">
-                        <div>
-                            <strong>{{ $review->user->first_name }} {{ $review->user->last_name }}</strong>
+                <div class="review-card review-card--approved">
+                    <div class="review-header">
+                        <div class="review-info">
+                            <strong class="review-author">{{ $review->user->first_name }} {{ $review->user->last_name }}</strong>
                             <br>
-                            <small>{{ $review->created_at->format('d.m.Y H:i') }}</small>
+                            <small class="review-date">{{ $review->created_at->format('d.m.Y H:i') }}</small>
                             <br>
-                            <strong>Тур: {{ $review->tour->title }}</strong>
+                            <strong class="review-tour">Тур: {{ $review->tour->title }}</strong>
                             <br>
-                            <div style="color: #ffc107;">
+                            <div class="review-rating">
                                 @for($i = 1; $i <= 5; $i++)
                                     {{ $i <= $review->rating ? '★' : '☆' }}
                                 @endfor
                                 ({{ $review->rating }}/5)
                             </div>
                         </div>
-                        <form method="POST" action="{{ route('admin.reviews.destroy', $review->id) }}">
+                        <form method="POST" action="{{ route('admin.reviews.destroy', $review->id) }}" class="action-form">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" style="background: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;">
+                            <button type="submit" class="btn btn--delete">
                                 Удалить
                             </button>
                         </form>
                     </div>
-                    <p>{{ $review->comment }}</p>
+                    <p class="review-comment">{{ $review->comment }}</p>
                 </div>
             @empty
-                <p>Нет опубликованных отзывов.</p>
+                <p class="no-reviews">Нет опубликованных отзывов.</p>
             @endforelse
         </div>
     </div>

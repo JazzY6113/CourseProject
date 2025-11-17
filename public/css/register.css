@@ -15,13 +15,13 @@ main {
     margin: 0 auto;
 }
 
-form {
+.register-form {
     display: flex;
     flex-direction: column;
     padding: 3% 0 0 0;
 }
 
-fieldset {
+.form-fieldset {
     display: flex;
     flex-direction: column;
     margin: 0 auto;
@@ -30,13 +30,7 @@ fieldset {
     width: 35vw;
 }
 
-.main-wrapper > form > fieldset > div > input {
-    width: 100%;
-    padding: 5%;
-    border-radius: 5px;
-}
-
-.main-wrapper > form > fieldset > div {
+.form-container {
     display: flex;
     flex-direction: column;
     margin: 0 auto;
@@ -46,75 +40,181 @@ fieldset {
     padding: 5% 0 5% 0;
 }
 
-.main-wrapper > form > fieldset > div > div > p {
-    font-size: 10pt;
+.logo-link {
+    text-decoration: none;
 }
 
-.main-wrapper > form > fieldset > div > div > a {
-    font-size: 18pt;
-    border: 1px solid red;
-    border-radius: 30px;
-    margin: 2% 0 0 0;
-    padding: 3% 7%;
-    text-align: center;
+.form-title {
+    font-size: 24pt;
+    font-weight: bold;
+    margin-bottom: 5px;
 }
 
-.main-wrapper > form > fieldset > div > div {
+.form-subtitle {
+    font-size: 14pt;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.form-input {
+    width: 100%;
+    padding: 5%;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 14pt;
+    transition: border-color 0.3s ease;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+.error-message {
+    color: red;
+    font-size: 12px;
+    width: 100%;
+    text-align: left;
+    margin-top: -5px;
+    margin-bottom: 5px;
+}
+
+.form-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
+    margin-top: 20px;
 }
 
-button {
+.privacy-text {
+    font-size: 10pt;
+    color: #666;
+    flex: 1;
+    margin-right: 15px;
+}
+
+.privacy-link {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.privacy-link:hover {
+    text-decoration: underline;
+}
+
+.submit-button {
     background: none;
     border: none;
     cursor: pointer;
+    flex-shrink: 0;
 }
 
-div > button > a {
+.button-text {
     font-size: 18pt;
     border: 1px solid red;
     border-radius: 30px;
-    margin: 2% 0 0 0;
     padding: 3% 7%;
     text-align: center;
     display: inline-block;
     text-decoration: none;
+    color: inherit;
+    background-color: white;
+    transition: all 0.3s ease;
+}
+
+.button-text:hover {
+    background-color: #f8f8f8;
+}
+
+.login-redirect {
+    margin-top: 20px;
+    text-align: center;
+    width: 100%;
+}
+
+.login-link {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.login-link:hover {
+    text-decoration: underline;
+}
+
+/* Альтернативный стиль для кнопки через ссылку (если нужно) */
+.form-footer > a {
+    font-size: 18pt;
+    border: 1px solid red;
+    border-radius: 30px;
+    margin: 2% 0 0 0;
+    padding: 3% 7%;
+    text-align: center;
+    text-decoration: none;
+    color: inherit;
+    background-color: white;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+.form-footer > a:hover {
+    background-color: #f8f8f8;
 }
 
 @media (max-width: 1000px) {
-    fieldset {
+    .form-fieldset {
         width: 70vw;
     }
 
-    .main-wrapper > form > fieldset > div > div > a,
-    .main-wrapper > form > fieldset > div > a:last-child {
+    .button-text,
+    .form-footer > a {
         font-size: 12pt;
     }
 
-    .main-wrapper > form > fieldset > div > div > div > p {
+    .privacy-text {
         font-size: 10pt;
         padding: 0 0 0 1px;
     }
 }
 
 @media (max-width: 828px) {
-    .main-wrapper > form > fieldset > div > div {
+    .form-footer {
         flex-direction: column;
         gap: 10px;
     }
 
-    fieldset {
+    .form-fieldset {
         width: 70vw;
     }
 
-    .main-wrapper > form > fieldset > div > p {
+    .form-container > p {
+        text-align: center;
+    }
+
+    .privacy-text {
+        margin-right: 0;
         text-align: center;
     }
 }
 
 @media (max-width: 450px) {
-    fieldset {
+    .form-fieldset {
         width: 70vw;
+    }
+
+    .form-container {
+        width: 80%;
+    }
+
+    .form-title {
+        font-size: 20pt;
+    }
+
+    .form-subtitle {
+        font-size: 12pt;
+    }
+
+    .form-input {
+        font-size: 12pt;
     }
 }

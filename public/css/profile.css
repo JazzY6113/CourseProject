@@ -16,46 +16,226 @@ main {
     margin: 0 auto;
 }
 
-.main-wrapper > div:first-child {
-    display: flex;
-    justify-content: center;
-    padding: 5% 0 5% 0;
+.profile-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
-.main-wrapper > div:first-child > p:first-child {
+.profile-title {
+    text-align: center;
+    margin-bottom: 30px;
     font-family: "Montserrat-Regular", sans-serif;
     font-size: 32pt;
+    color: #333;
 }
 
-form {
+.alert {
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+.alert-success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.alert-danger {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.profile-form {
     display: flex;
     flex-direction: column;
     padding: 3% 0 0 0;
 }
 
-fieldset {
+.form-fieldset {
     display: flex;
     flex-direction: column;
     margin: 0 auto;
     background-color: white;
     border-radius: 10px;
-    width: 35vw;
-    height: 100%;
+    width: 100%;
+    padding: 30px;
+    border: 1px solid #e0e0e0;
 }
 
-input {
+.avatar-section {
+    margin-bottom: 20px;
+}
+
+.avatar-container {
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.avatar-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #ddd;
+    margin-bottom: 10px;
+}
+
+.avatar-actions {
+    margin-top: 10px;
+}
+
+.delete-avatar-btn {
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: background-color 0.3s ease;
+}
+
+.delete-avatar-btn:hover {
+    background: #c82333;
+}
+
+.default-avatar-label {
+    margin-top: 10px;
+    font-size: 12px;
+    color: #666;
+}
+
+.avatar-upload {
+    margin-bottom: 15px;
+}
+
+.upload-label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+}
+
+.file-input {
     width: 100%;
-    padding: 5%;
-    border-radius: 5px;
+    padding: 8px;
     border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 5px;
+}
+
+.upload-hint {
+    font-size: 12px;
+    color: #666;
+    margin-top: 5px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+}
+
+.form-input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.readonly-input {
+    background-color: #f8f9fa;
+    color: #6c757d;
+    cursor: not-allowed;
+}
+
+.error-message {
+    color: #dc3545;
+    font-size: 14px;
+    display: block;
+    margin-top: 5px;
+}
+
+.submit-button {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+.submit-button:hover {
+    background: #0056b3;
+}
+
+.hidden-form {
+    display: none;
 }
 
 @media (max-width: 850px) {
     main {
-        height: 70vh;
+        height: auto;
+        min-height: 100vh;
     }
 
-    .main-wrapper {
-        gap: 10px;
+    .profile-container {
+        padding: 15px;
+    }
+
+    .profile-title {
+        font-size: 24pt;
+        margin-bottom: 20px;
+    }
+
+    .form-fieldset {
+        padding: 20px;
+    }
+
+    .avatar-image {
+        width: 120px;
+        height: 120px;
+    }
+}
+
+@media (max-width: 480px) {
+    .profile-title {
+        font-size: 20pt;
+    }
+
+    .form-fieldset {
+        padding: 15px;
+    }
+
+    .avatar-image {
+        width: 100px;
+        height: 100px;
+    }
+
+    .submit-button {
+        padding: 12px 20px;
+        font-size: 14px;
     }
 }

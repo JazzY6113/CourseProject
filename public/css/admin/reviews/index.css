@@ -1,0 +1,249 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.reviews-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.reviews-title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 30px;
+    font-family: "Montserrat-Regular", sans-serif;
+}
+
+.reviews-section {
+    margin-bottom: 40px;
+}
+
+.section-title {
+    font-size: 22px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.review-card {
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    background: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+.review-card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.review-card--pending {
+    border-left: 4px solid #ffc107;
+}
+
+.review-card--approved {
+    border-left: 4px solid #28a745;
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+    gap: 15px;
+}
+
+.review-info {
+    flex: 1;
+}
+
+.review-author {
+    font-size: 16px;
+    color: #333;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.review-date {
+    color: #666;
+    font-size: 14px;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.review-tour {
+    font-size: 14px;
+    color: #007bff;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.review-rating {
+    color: #ffc107;
+    font-size: 16px;
+    margin-top: 5px;
+}
+
+.review-actions {
+    display: flex;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.action-form {
+    display: inline;
+}
+
+.btn {
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    min-width: 100px;
+}
+
+.btn--approve {
+    background: #28a745;
+    color: white;
+}
+
+.btn--approve:hover {
+    background: #218838;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.btn--reject {
+    background: #dc3545;
+    color: white;
+}
+
+.btn--reject:hover {
+    background: #c82333;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.btn--delete {
+    background: #6c757d;
+    color: white;
+}
+
+.btn--delete:hover {
+    background: #545b62;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.review-comment {
+    color: #333;
+    line-height: 1.5;
+    font-size: 15px;
+    margin: 0;
+}
+
+.no-reviews {
+    text-align: center;
+    color: #666;
+    font-size: 16px;
+    padding: 30px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px dashed #dee2e6;
+}
+
+@media (max-width: 768px) {
+    .reviews-container {
+        padding: 15px;
+    }
+
+    .reviews-title {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    .section-title {
+        font-size: 20px;
+    }
+
+    .review-card {
+        padding: 15px;
+    }
+
+    .review-header {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .review-actions {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .btn {
+        min-width: 120px;
+        padding: 10px 20px;
+    }
+
+    .review-author {
+        font-size: 15px;
+    }
+
+    .review-date,
+    .review-tour {
+        font-size: 13px;
+    }
+
+    .review-rating {
+        font-size: 15px;
+    }
+
+    .review-comment {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .reviews-container {
+        padding: 10px;
+    }
+
+    .reviews-title {
+        font-size: 20px;
+    }
+
+    .section-title {
+        font-size: 18px;
+    }
+
+    .review-card {
+        padding: 12px;
+    }
+
+    .review-actions {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .btn {
+        width: 100%;
+        min-width: auto;
+        padding: 10px;
+    }
+
+    .no-reviews {
+        padding: 20px;
+        font-size: 14px;
+    }
+}

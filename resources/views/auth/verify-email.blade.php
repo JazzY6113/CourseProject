@@ -7,27 +7,27 @@
 @endsection
 
 @section('content')
-    <div class="main-wrapper" style="text-align:center; margin-top: 50px;">
-        <img src="{{ asset('img/Лого.svg') }}" alt="Nomadic Tour" width="150">
-        <h2>Подтвердите ваш Email</h2>
+    <div class="main-wrapper verify-container">
+        <img src="{{ asset('img/Лого.svg') }}" alt="Nomadic Tour" class="verify-logo">
+        <h2 class="verify-title">Подтвердите ваш Email</h2>
 
         @if (session('status') == 'verification-link-sent')
-            <p style="color: green;">На ваш почтовый ящик отправлена новая ссылка для подтверждения.</p>
+            <p class="verify-success">На ваш почтовый ящик отправлена новая ссылка для подтверждения.</p>
         @endif
 
-        <p>Мы отправили письмо на ваш адрес <strong>{{ auth()->user()->email }}</strong>.</p>
-        <p>Если вы не получили письмо, вы можете запросить повторную отправку:</p>
+        <p class="verify-text">Мы отправили письмо на ваш адрес <strong>{{ auth()->user()->email }}</strong>.</p>
+        <p class="verify-text">Если вы не получили письмо, вы можете запросить повторную отправку:</p>
 
-        <form method="POST" action="{{ route('verification.send') }}">
+        <form method="POST" action="{{ route('verification.send') }}" class="verify-form">
             @csrf
-            <button type="submit" style="background-color: #d9534f; color: #fff; border: none; border-radius: 25px; padding: 10px 20px; cursor: pointer;">
+            <button type="submit" class="verify-button">
                 Отправить повторно
             </button>
         </form>
 
-        <form method="POST" action="{{ route('logout') }}" style="margin-top: 20px;">
+        <form method="POST" action="{{ route('logout') }}" class="logout-form">
             @csrf
-            <button type="submit" style="background-color: #ccc; color: #000; border: none; border-radius: 25px; padding: 10px 20px; cursor: pointer;">
+            <button type="submit" class="logout-button">
                 Выйти
             </button>
         </form>

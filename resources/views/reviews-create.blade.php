@@ -4,6 +4,7 @@
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/reviews-create.css') }}">
+    <script src="{{ asset('js/scripts/star-rating.js') }}"></script>
 @endsection
 
 @section('content')
@@ -84,17 +85,4 @@
             </form>
         </div>
     </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const stars = document.querySelectorAll('.star-rating label');
-
-            stars.forEach(star => {
-                star.addEventListener('click', function() {
-                    const rating = this.htmlFor.replace('star', '');
-                    document.querySelector(`#star${rating}`).checked = true;
-                });
-            });
-        });
-    </script>
 @endsection

@@ -5,19 +5,19 @@
     <title>Подтверждение регистрации - Nomadic Tour</title>
     <link rel="stylesheet" href="{{ asset('css/emails/verify.css') }}">
 </head>
-<body style="font-family: Arial, sans-serif; background: #fafafa; padding: 30px;">
-<div style="max-width: 600px; margin: 0 auto; background: #fff; border-radius: 10px; padding: 30px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
-    <h2 style="text-align: center; color: #d9534f;">Nomadic Tour</h2>
-    <p>Здравствуйте, {{ $user->first_name }}!</p>
-    <p>Благодарим вас за регистрацию на <strong>Nomadic Tour</strong>.</p>
-    <p>Для завершения регистрации, пожалуйста, подтвердите ваш адрес электронной почты, нажав на кнопку ниже:</p>
-    <p style="text-align: center;">
-        <a href="{{ $url }}" style="display: inline-block; background-color: #d9534f; color: #fff; padding: 12px 24px; border-radius: 25px; text-decoration: none; font-size: 16px;">
-            Подтвердить Email
-        </a>
-    </p>
-    <p>Если вы не регистрировались на нашем сайте, просто проигнорируйте это письмо.</p>
-    <p style="color: #888; font-size: 12px; text-align: center;">© {{ date('Y') }} Nomadic Tour</p>
-</div>
+<body class="email-body">
+    <div class="email-container">
+        <h2 class="email-title">Nomadic Tour</h2>
+        <p class="email-greeting">Здравствуйте, {{ $user->first_name }}!</p>
+        <p class="email-text">Благодарим вас за регистрацию на <strong>Nomadic Tour</strong>.</p>
+        <p class="email-text">Для завершения регистрации, пожалуйста, подтвердите ваш адрес электронной почты, нажав на кнопку ниже:</p>
+        <p class="button-container">
+            <a href="{{ $url }}" class="verify-button">
+                Подтвердить Email
+            </a>
+        </p>
+        <p class="email-text">Если вы не регистрировались на нашем сайте, просто проигнорируйте это письмо.</p>
+        <p class="email-footer">© {{ date('Y') }} Nomadic Tour</p>
+    </div>
 </body>
 </html>
