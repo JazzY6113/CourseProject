@@ -9,11 +9,6 @@ class Review extends Model
 {
     use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
     protected $fillable = [
         'user_id',
         'tour_id',
@@ -27,25 +22,16 @@ class Review extends Model
         'rating' => 'integer',
     ];
 
-    /**
-     * Get the user that owns the review.
-     */
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * Get the tour that the review is for.
-     */
     public function tour()
     {
         return $this->belongsTo(Tour::class);
     }
 
-    /**
-     * Get author name (user's name or custom author name)
-     */
     public function getAuthorNameAttribute()
     {
         if ($this->user_id && $this->user) {
@@ -55,9 +41,6 @@ class Review extends Model
         return $this->attributes['author_name'] ?? 'Анонимный пользователь';
     }
 
-    /**
-     * Get author avatar
-     */
     public function getAuthorAvatarAttribute()
     {
         if ($this->user_id && $this->user) {
@@ -67,41 +50,26 @@ class Review extends Model
         return asset('img/default-avatar.png');
     }
 
-    /**
-     * Scope a query to only include approved reviews.
-     */
     public function scopeApproved($query)
     {
         return $query->where('status', 'approved');
     }
 
-    /**
-     * Scope a query to only include pending reviews.
-     */
     public function scopePending($query)
     {
         return $query->where('status', 'pending');
     }
 
-    /**
-     * Check if review is approved.
-     */
     public function isApproved()
     {
         return $this->status === 'approved';
     }
 
-    /**
-     * Check if review is pending.
-     */
     public function isPending()
     {
         return $this->status === 'pending';
     }
 
-    /**
-     * Get formatted created date in Russian.
-     */
     public function getFormattedDateAttribute()
     {
         $months = [
@@ -113,9 +81,6 @@ class Review extends Model
         return $this->created_at->format('d') . ' ' . $months[$this->created_at->format('n')] . ' ' . $this->created_at->format('Yг.');
     }
 
-    /**
-     * Get star rating HTML.
-     */
     public function getStarRatingAttribute()
     {
         $stars = '';
@@ -129,9 +94,6 @@ class Review extends Model
         return $stars;
     }
 
-    /**
-     * Get short comment (first 100 characters)
-     */
     public function getShortCommentAttribute()
     {
         return strlen($this->comment) > 100

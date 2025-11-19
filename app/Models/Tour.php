@@ -39,13 +39,11 @@ class Tour extends Model
         return $this->hasManyThrough(Booking::class, TourDate::class);
     }
 
-    // Добавляем связь с изображениями
     public function images()
     {
         return $this->hasMany(TourImage::class)->orderBy('order_index');
     }
 
-    // Получить горящие туры (3 ближайших по дате)
     public static function getHotTours()
     {
         return self::where('is_active', true)
@@ -67,7 +65,6 @@ class Tour extends Model
             ->take(3);
     }
 
-    // Получить все активные туры
     public static function getAllActiveTours()
     {
         return self::where('is_active', true)
@@ -79,7 +76,6 @@ class Tour extends Model
             ->get();
     }
 
-    // Получить основное изображение
     public function getMainImageAttribute()
     {
         return $this->images->first()->image_path ?? null;

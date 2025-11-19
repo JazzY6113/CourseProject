@@ -9,9 +9,6 @@ use Illuminate\Support\Facades\Auth;
 
 class ReviewController extends Controller
 {
-    /**
-     * Display the reviews page with approved reviews.
-     */
     public function index()
     {
         $reviews = Review::approved()
@@ -24,18 +21,12 @@ class ReviewController extends Controller
         return view('reviews', compact('reviews', 'tours'));
     }
 
-    /**
-     * Show the form for creating a new review.
-     */
     public function create()
     {
         $tours = Tour::where('is_active', true)->get();
         return view('reviews-create', compact('tours'));
     }
 
-    /**
-     * Store a newly created review.
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -45,11 +36,9 @@ class ReviewController extends Controller
             'comment' => 'required|string|max:1000',
         ]);
 
-        // Если пользователь авторизован, используем его данные
         $userId = Auth::id();
         $authorName = $userId ? null : $request->author_name;
 
-        // Проверяем, не оставлял ли пользователь уже отзыв на этот тур
         if ($userId) {
             $existingReview = Review::where('user_id', $userId)
                 ->where('tour_id', $request->tour_id)
@@ -72,9 +61,6 @@ class ReviewController extends Controller
         return redirect()->route('reviews')->with('success', 'Отзыв отправлен на модерацию. Спасибо!');
     }
 
-    /**
-     * Display the admin reviews management page.
-     */
     public function adminIndex()
     {
         if (Auth::user()->role_id !== 2) {
@@ -94,9 +80,6 @@ class ReviewController extends Controller
         return view('admin.reviews.index', compact('pendingReviews', 'approvedReviews'));
     }
 
-    /**
-     * Approve a review.
-     */
     public function approve($id)
     {
         if (Auth::user()->role_id !== 2) {
@@ -109,9 +92,6 @@ class ReviewController extends Controller
         return back()->with('success', 'Отзыв опубликован.');
     }
 
-    /**
-     * Reject a review.
-     */
     public function reject($id)
     {
         if (Auth::user()->role_id !== 2) {
@@ -124,9 +104,6 @@ class ReviewController extends Controller
         return back()->with('success', 'Отзыв отклонен.');
     }
 
-    /**
-     * Delete a review.
-     */
     public function destroy($id)
     {
         if (Auth::user()->role_id !== 2) {
@@ -139,9 +116,6 @@ class ReviewController extends Controller
         return back()->with('success', 'Отзыв удален.');
     }
 
-    /**
-     * Get reviews for a specific tour (for API)
-     */
     public function getTourReviews($tourId)
     {
         $reviews = Review::approved()

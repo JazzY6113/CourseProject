@@ -9,11 +9,6 @@ class Booking extends Model
 {
     use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
     protected $fillable = [
         'user_id',
         'tour_date_id',
@@ -25,11 +20,6 @@ class Booking extends Model
         'special_requests',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
     protected function casts(): array
     {
         return [
@@ -38,33 +28,21 @@ class Booking extends Model
         ];
     }
 
-    /**
-     * Get the user that owns the booking.
-     */
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * Get the tour date that owns the booking.
-     */
     public function tourDate()
     {
         return $this->belongsTo(TourDate::class);
     }
 
-    /**
-     * Get the booking status that owns the booking.
-     */
     public function bookingStatus()
     {
         return $this->belongsTo(BookingStatus::class);
     }
 
-    /**
-     * Get the review for the booking.
-     */
     public function review()
     {
         return $this->hasOne(Review::class);

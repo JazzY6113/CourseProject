@@ -11,13 +11,11 @@ use Illuminate\Support\Str;
 
 class PasswordResetController extends Controller
 {
-    // Форма запроса сброса пароля
     public function showForgotForm()
     {
         return view('auth.forgot-password');
     }
 
-    // Отправка письма со ссылкой
     public function sendResetLink(Request $request)
     {
         $request->validate(['email' => 'required|email']);
@@ -29,13 +27,11 @@ class PasswordResetController extends Controller
             : back()->withErrors(['email' => __($status)]);
     }
 
-    // Форма для ввода нового пароля
     public function showResetForm(string $token)
     {
         return view('auth.reset-password', ['token' => $token]);
     }
 
-    // Обновление пароля
     public function resetPassword(Request $request)
     {
         $request->validate([
@@ -47,7 +43,6 @@ class PasswordResetController extends Controller
         $status = \Illuminate\Support\Facades\Password::reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function ($user, $password) {
-                // У тебя в БД поле называется password_hash, а не password
                 $user->forceFill([
                     'password_hash' => \Illuminate\Support\Facades\Hash::make($password),
                 ])->save();
@@ -57,13 +52,11 @@ class PasswordResetController extends Controller
         );
 
         if ($status == \Illuminate\Support\Facades\Password::PASSWORD_RESET) {
-            // После успешной смены — на страницу входа
             return redirect()
                 ->route('login')
                 ->with('success', 'Пароль успешно изменён! Теперь вы можете войти.');
         }
 
-        // Если что-то пошло не так — вернём обратно с ошибкой
         return back()->withErrors(['email' => __($status)]);
     }
 }

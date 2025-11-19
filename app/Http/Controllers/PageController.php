@@ -45,19 +45,4 @@ class PageController extends Controller
     {
         return view('register');
     }
-
-    public function marsNaAltae()
-    {
-        return view('mars-na-altae');
-    }
-
-    public function vDolinuChulishman()
-    {
-        return view('v-dolinu-chulishman-urochishu-ak-kurum');
-    }
-
-    public function goriAltaya()
-    {
-        return view('gori-altaya');
-    }
 }

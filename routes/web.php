@@ -10,22 +10,15 @@ use App\Http\Controllers\HotTourController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Route;
 
-// ==========================
-// Публичные страницы
-// ==========================
 Route::get('/', [PageController::class, 'home'])->name('home');
-Route::get('/tour', [TourController::class, 'index'])->name('tour'); // Изменили здесь
-Route::get('/hot', [HotTourController::class, 'index'])->name('hot'); // Изменили здесь
+Route::get('/tour', [TourController::class, 'index'])->name('tour');
+Route::get('/hot', [HotTourController::class, 'index'])->name('hot');
 Route::get('/aboutus', [PageController::class, 'aboutus'])->name('aboutus');
 Route::get('/reviews', [PageController::class, 'reviews'])->name('reviews');
 Route::get('/contact', [PageController::class, 'contact'])->name('contact');
 
-// Детальная страница тура
 Route::get('/tours/{id}', [TourController::class, 'show'])->name('tour.detail');
 
-// ==========================
-// Аутентификация
-// ==========================
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [AuthController::class, 'login']);
@@ -37,9 +30,6 @@ Route::post('/logout', [AuthController::class, 'logout'])
     ->middleware('auth')
     ->name('logout');
 
-// ==========================
-// Подтверждение email
-// ==========================
 Route::get('/email/verify', [AuthController::class, 'showVerificationNotice'])
     ->middleware('auth')
     ->name('verification.notice');
@@ -53,9 +43,6 @@ Route::post('/email/verification-notification', [AuthController::class, 'resendV
     ->middleware(['auth', 'throttle:6,1'])
     ->name('verification.send');
 
-// ==========================
-// Восстановление пароля
-// ==========================
 Route::middleware('guest')->group(function () {
     Route::get('/forgot-password', [PasswordResetController::class, 'showForgotForm'])
         ->name('password.request');
@@ -67,18 +54,12 @@ Route::middleware('guest')->group(function () {
         ->name('password.update');
 });
 
-// ==========================
-// Личный кабинет
-// ==========================
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
     Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile/avatar', [ProfileController::class, 'deleteAvatar'])->name('profile.avatar.delete');
 });
 
-// ==========================
-// Админка туров (только для администраторов)
-// ==========================
 Route::middleware(['auth'])->group(function () {
     Route::get('/admin/tours', [TourController::class, 'adminIndex'])->name('admin.tours');
     Route::get('/admin/tours/create', [TourController::class, 'create'])->name('admin.tours.create');
@@ -88,21 +69,20 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/admin/tours/{id}', [TourController::class, 'destroy'])->name('admin.tours.delete');
 });
 
-// ==========================
-// Отзывы
-// ==========================
 Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews');
 Route::middleware('auth')->group(function () {
     Route::get('/reviews/create', [ReviewController::class, 'create'])->name('reviews.create');
     Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
 });
 
-// ==========================
-// Админка отзывов
-// ==========================
 Route::middleware(['auth'])->group(function () {
     Route::get('/admin/reviews', [ReviewController::class, 'adminIndex'])->name('admin.reviews');
     Route::post('/admin/reviews/{id}/approve', [ReviewController::class, 'approve'])->name('admin.reviews.approve');
     Route::post('/admin/reviews/{id}/reject', [ReviewController::class, 'reject'])->name('admin.reviews.reject');
     Route::delete('/admin/reviews/{id}', [ReviewController::class, 'destroy'])->name('admin.reviews.destroy');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::post('/api/bookings', [App\Http\Controllers\BookingController::class, 'store'])->name('bookings.store');
+    Route::put('/api/bookings/{id}/cancel', [App\Http\Controllers\BookingController::class, 'cancel'])->name('bookings.cancel');
 });

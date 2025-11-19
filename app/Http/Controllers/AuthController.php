@@ -15,20 +15,13 @@ use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
-    /**
-     * Показ формы регистрации.
-     */
     public function showRegistrationForm()
     {
         return view('register');
     }
 
-    /**
-     * Обработка регистрации с валидацией и CSRF.
-     */
     public function register(Request $request)
     {
-        // ---- ВАЛИДАЦИЯ С РЕГУЛЯРНЫМИ ВЫРАЖЕНИЯМИ ----
         $validated = $request->validate([
             'first_name'    => ['required', 'string', 'max:255', new CyrillicName],
             'last_name'     => ['required', 'string', 'max:255', new CyrillicName],
@@ -46,10 +39,8 @@ class AuthController extends Controller
             'patronymic.regex'      => 'Отчество должно содержать только кириллические символы и начинаться с заглавной буквы.',
         ]);
 
-        // ---- РОЛЬ ПОЛЬЗОВАТЕЛЯ ----
         $role = Role::firstOrCreate(['role_name' => 'user']);
 
-        // ---- СОЗДАНИЕ ПОЛЬЗОВАТЕЛЯ ----
         $user = User::create([
             'role_id'          => $role->id,
             'first_name'       => $validated['first_name'],
@@ -60,28 +51,19 @@ class AuthController extends Controller
             'is_email_verified'=> false,
         ]);
 
-        // ---- ОТПРАВКА EMAIL ВЕРИФИКАЦИИ ----
         event(new Registered($user));
 
-        // ---- НЕ ЛОГИНИМ ДО ПОДТВЕРЖДЕНИЯ ----
         return redirect()->route('verification.notice')
             ->with('status', 'Проверьте почту для подтверждения e-mail.');
     }
 
-    /**
-     * Показ формы входа.
-     */
     public function showLoginForm()
     {
         return view('login');
     }
 
-    /**
-     * Авторизация с валидацией и проверкой подтверждения почты.
-     */
     public function login(Request $request)
     {
-        // ---- ВАЛИДАЦИЯ ----
         $credentials = $request->validate([
             'email'     => ['required', 'email', 'regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/'],
             'password'  => ['required', 'string'],
@@ -92,33 +74,26 @@ class AuthController extends Controller
             'password.required' => 'Введите пароль.',
         ]);
 
-        // ---- ПОИСК ПОЛЬЗОВАТЕЛЯ ----
         $user = User::where('email', $credentials['email'])->first();
 
-        // ---- ПРОВЕРКА УЧЕТНЫХ ДАННЫХ ----
         if (!$user || !Hash::check($credentials['password'], $user->password_hash)) {
             throw ValidationException::withMessages([
                 'email' => 'Неверный e-mail или пароль.',
             ]);
         }
 
-        // ---- ПРОВЕРКА ВЕРИФИКАЦИИ ----
         if (!$user->hasVerifiedEmail()) {
-            Auth::login($user); // временный вход
+            Auth::login($user);
             return redirect()->route('verification.notice')
                 ->with('status', 'Подтвердите e-mail, чтобы продолжить.');
         }
 
-        // ---- ВХОД И РЕГЕНЕРАЦИЯ СЕССИИ ----
         Auth::login($user);
         $request->session()->regenerate();
 
         return redirect()->intended('/')->with('success', 'Добро пожаловать!');
     }
 
-    /**
-     * Выход.
-     */
     public function logout(Request $request)
     {
         Auth::logout();
@@ -128,17 +103,11 @@ class AuthController extends Controller
         return redirect('/')->with('success', 'Вы вышли из аккаунта.');
     }
 
-    /**
-     * Страница уведомления о подтверждении e-mail.
-     */
     public function showVerificationNotice()
     {
         return view('auth.verify-email');
     }
 
-    /**
-     * Повторная отправка письма подтверждения.
-     */
     public function resendVerificationEmail(Request $request)
     {
         if ($request->user()->hasVerifiedEmail()) {

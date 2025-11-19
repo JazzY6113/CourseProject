@@ -7,9 +7,6 @@ use Illuminate\Contracts\Validation\ValidationRule;
 
 class CyrillicName implements ValidationRule
 {
-    /**
-     * Run the validation rule.
-     */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         if (!preg_match('/^[А-ЯЁ][а-яё]{1,29}$/u', $value)) {

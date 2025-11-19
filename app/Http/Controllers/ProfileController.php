@@ -59,21 +59,15 @@ class ProfileController extends Controller
         }
     }
 
-    /**
-     * Handle avatar upload
-     */
     private function handleAvatarUpload($file, $user)
     {
-        // Delete old avatar if exists
         if ($user->avatar) {
             Storage::disk('public')->delete($user->avatar);
         }
 
-        // Generate unique filename
         $extension = $file->getClientOriginalExtension();
         $filename = 'avatar_' . $user->id . '_' . time() . '.' . $extension;
 
-        // Store the file
         $path = $file->storeAs('avatars', $filename, 'public');
 
         $user->avatar = $path;

@@ -8,10 +8,6 @@ use Illuminate\Http\JsonResponse;
 
 class TourDateController extends Controller
 {
-    /**
-     * Получить доступные даты для тура
-     * GET /api/tours/{tourId}/dates
-     */
     public function index($tourId): JsonResponse
     {
         $dates = TourDate::where('tour_id', $tourId)
@@ -24,10 +20,6 @@ class TourDateController extends Controller
         return response()->json($dates);
     }
 
-    /**
-     * Создать новую дату для тура
-     * POST /api/tour-dates
-     */
     public function store(Request $request): JsonResponse
     {
         $validated = $request->validate([
@@ -41,16 +33,12 @@ class TourDateController extends Controller
 
         $tourDate = TourDate::create([
             ...$validated,
-            'tour_date_status_id' => $validated['tour_date_status_id'] ?? 1, // По умолчанию "available"
+            'tour_date_status_id' => $validated['tour_date_status_id'] ?? 1,
         ]);
 
         return response()->json($tourDate, 201);
     }
 
-    /**
-     * Обновить дату тура
-     * PUT /api/tour-dates/{id}
-     */
     public function update(Request $request, $id): JsonResponse
     {
         $tourDate = TourDate::findOrFail($id);
@@ -68,10 +56,6 @@ class TourDateController extends Controller
         return response()->json($tourDate);
     }
 
-    /**
-     * Удалить дату тура
-     * DELETE /api/tour-dates/{id}
-     */
     public function destroy($id): JsonResponse
     {
         $tourDate = TourDate::findOrFail($id);

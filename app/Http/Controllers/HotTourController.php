@@ -6,9 +6,6 @@ use App\Models\Tour;
 
 class HotTourController extends Controller
 {
-    /**
-     * Показать горящие туры
-     */
     public function index()
     {
         $hotTours = Tour::where('is_active', true)
