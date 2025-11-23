@@ -104,10 +104,7 @@ main {
 }
 
 .submit-button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    flex-shrink: 0;
+
 }
 
 .button-text {
@@ -142,7 +139,6 @@ main {
     text-decoration: underline;
 }
 
-/* Альтернативный стиль для кнопки через ссылку (если нужно) */
 .form-footer > a {
     font-size: 18pt;
     border: 1px solid red;

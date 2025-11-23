@@ -4,6 +4,7 @@
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/register.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/form-styles.css') }}">
     <script src="{{ asset('js/validation.js') }}"></script>
 @endsection
 
@@ -50,10 +51,10 @@
                             соглашаетесь
                             <a href="" class="privacy-link">c политикой конфиденциальности</a>.
                         </p>
-                        <button type="submit" class="submit-button">
-                            <span class="button-text">Зарегистрироваться</span>
-                        </button>
                     </div>
+                    <button type="submit" class="submit-button">
+                        <span class="button-text">Зарегистрироваться</span>
+                    </button>
 
                     <div class="login-redirect">
                         <p>Уже есть аккаунт? <a href="{{ route('login') }}" class="login-link">Войти</a></p>

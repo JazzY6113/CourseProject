@@ -12,15 +12,15 @@
             <p>ТУРЫ</p>
         </div>
 
-        @if(isset($tours) && $tours->count() > 0)
+        @if($tours->count() > 0)
             <div class="containers">
                 @foreach($tours as $tour)
                     <div class="tour-container container-{{ ($loop->iteration % 9) + 1 }}">
                         <div class="tour-image image-container-{{ ($loop->iteration % 9) + 1 }}"
                              @if($tour->images->count() > 0)
-                                 data-background-image="{{ asset('storage/' . $tour->images->first()->image_path) }}"
+                                 style="background-image: url('{{ asset('storage/' . $tour->images->first()->image_path) }}')"
                              @else
-                                 data-background-image="{{ asset('img/default-tour.jpg') }}"
+                                 style="background-image: url('{{ asset('img/default-tour.jpg') }}')"
                             @endif>
                             <p class="tour-title">{{ $tour->title }}</p>
                         </div>

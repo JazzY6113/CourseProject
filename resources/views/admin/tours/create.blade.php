@@ -4,6 +4,7 @@
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/admin/create.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/form-styles.css') }}">
     <script src="{{ asset('js/scripts/image-preview.js') }}"></script>
 @endsection
 

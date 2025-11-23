@@ -4,6 +4,7 @@
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/login.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/form-styles.css') }}">
     <script src="{{ asset('js/validation.js') }}"></script>
 @endsection
 

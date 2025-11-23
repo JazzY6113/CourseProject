@@ -40,11 +40,17 @@ class TourController extends Controller
             'tourDates' => function($query) {
                 $query->where('start_date', '>', now())
                     ->where('available_seats', '>', 0)
+                    ->where('tour_date_status_id', 1)
                     ->orderBy('start_date');
             },
             'tourDates.tourDateStatus',
             'images'
         ])->findOrFail($id);
+
+        \Log::info('Tour dates for tour ' . $id . ': ' . $tour->tourDates->count());
+        foreach ($tour->tourDates as $date) {
+            \Log::info('Date ID: ' . $date->id . ', Start: ' . $date->start_date . ', Seats: ' . $date->available_seats . ', Status: ' . $date->tour_date_status_id);
+        }
 
         return view('tour-detail', compact('tour'));
     }

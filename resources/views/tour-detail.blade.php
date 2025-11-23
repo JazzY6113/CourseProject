@@ -4,6 +4,8 @@
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/tour-detail.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/form-styles.css') }}">
+    <script src="{{ asset('js/scripts/avatar.js') }}"></script>
 @endsection
 
 @section('content')
@@ -100,7 +102,7 @@
                     </div>
 
                     @auth
-                        <form id="bookingForm" class="booking-form">
+                        <form id="bookingForm" action="{{ route('bookings.store') }}" method="POST" class="booking-form">
                             @csrf
                             <input type="hidden" name="tour_date_id" id="selectedTourDateId" value="">
 
@@ -177,143 +179,4 @@
             <button id="closeModal">OK</button>
         </div>
     </div>
-@endsection
-
-@section('scripts')
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const thumbnails = document.querySelectorAll('.thumbnail');
-            const mainImage = document.getElementById('mainTourImage');
-
-            thumbnails.forEach(thumb => {
-                thumb.addEventListener('click', function() {
-                    const imageUrl = this.getAttribute('data-image');
-                    mainImage.src = imageUrl;
-
-                    thumbnails.forEach(t => t.classList.remove('active'));
-                    this.classList.add('active');
-                });
-            });
-
-            const dateItems = document.querySelectorAll('.date-item');
-            const selectedDateInput = document.getElementById('selectedTourDateId');
-            const currentPriceElement = document.getElementById('currentPrice');
-            const guestsCountSelect = document.getElementById('guests_count');
-            const totalPriceElement = document.getElementById('totalPrice');
-            const bookButton = document.getElementById('bookButton');
-
-            let selectedDate = null;
-
-            dateItems.forEach(item => {
-                item.addEventListener('click', function() {
-                    dateItems.forEach(d => d.classList.remove('active'));
-                    this.classList.add('active');
-
-                    selectedDate = {
-                        id: this.getAttribute('data-date-id'),
-                        price: parseFloat(this.getAttribute('data-price')),
-                        seats: parseInt(this.getAttribute('data-seats'))
-                    };
-
-                    selectedDateInput.value = selectedDate.id;
-
-                    currentPriceElement.textContent = selectedDate.price.toLocaleString('ru-RU');
-
-                    updateTotalPrice();
-
-                    updateBookButton();
-                });
-            });
-
-            if (dateItems.length > 0) {
-                dateItems[0].click();
-            }
-
-            guestsCountSelect.addEventListener('change', function() {
-                updateTotalPrice();
-                updateBookButton();
-            });
-
-            function updateTotalPrice() {
-                if (selectedDate && guestsCountSelect.value) {
-                    const guestsCount = parseInt(guestsCountSelect.value);
-                    const totalPrice = selectedDate.price * guestsCount;
-                    totalPriceElement.textContent = totalPrice.toLocaleString('ru-RU') + ' руб';
-                } else {
-                    totalPriceElement.textContent = '0 руб';
-                }
-            }
-
-            function updateBookButton() {
-                if (selectedDate && guestsCountSelect.value) {
-                    const guestsCount = parseInt(guestsCountSelect.value);
-                    if (guestsCount <= selectedDate.seats) {
-                        bookButton.disabled = false;
-                        bookButton.textContent = 'Забронировать';
-                    } else {
-                        bookButton.disabled = true;
-                        bookButton.textContent = 'Недостаточно мест';
-                    }
-                } else {
-                    bookButton.disabled = true;
-                    bookButton.textContent = 'Забронировать';
-                }
-            }
-
-            const bookingForm = document.getElementById('bookingForm');
-            if (bookingForm) {
-                bookingForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-
-                    const formData = new FormData(this);
-
-                    fetch('{{ route("bookings.store") }}', {
-                        method: 'POST',
-                        headers: {
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                            'Accept': 'application/json',
-                        },
-                        body: formData
-                    })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.message) {
-                                alert('Ошибка: ' + data.message);
-                            } else {
-                                document.getElementById('successModal').style.display = 'block';
-                                bookingForm.reset();
-                                updateTotalPrice();
-                                updateBookButton();
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            alert('Произошла ошибка при бронировании');
-                        });
-                });
-            }
-
-            const modal = document.getElementById('successModal');
-            const closeModal = document.getElementById('closeModal');
-            const span = document.getElementsByClassName('close')[0];
-
-            if (closeModal) {
-                closeModal.onclick = function() {
-                    modal.style.display = 'none';
-                }
-            }
-
-            if (span) {
-                span.onclick = function() {
-                    modal.style.display = 'none';
-                }
-            }
-
-            window.onclick = function(event) {
-                if (event.target == modal) {
-                    modal.style.display = 'none';
-                }
-            }
-        });
-    </script>
 @endsection

@@ -86,3 +86,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/api/bookings', [App\Http\Controllers\BookingController::class, 'store'])->name('bookings.store');
     Route::put('/api/bookings/{id}/cancel', [App\Http\Controllers\BookingController::class, 'cancel'])->name('bookings.cancel');
 });
+
+Route::middleware('auth')->group(function () {
+    Route::post('/bookings', [App\Http\Controllers\BookingController::class, 'store'])->name('bookings.store');
+    Route::put('/bookings/{id}/cancel', [App\Http\Controllers\BookingController::class, 'cancel'])->name('bookings.cancel');
+});

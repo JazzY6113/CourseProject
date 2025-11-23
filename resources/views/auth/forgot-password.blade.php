@@ -4,6 +4,7 @@
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/forgot-password.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/form-styles.css') }}">
 @endsection
 
 @section('content')

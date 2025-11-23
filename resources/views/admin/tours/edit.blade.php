@@ -4,6 +4,7 @@
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/admin/tours/edit.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/form-styles.css') }}">
 @endsection
 
 @section('content')

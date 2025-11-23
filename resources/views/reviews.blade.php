@@ -8,31 +8,38 @@
 
 @section('content')
     <div class="reviews-container">
-        <div>
+        <div class="reviews-header">
             <h1>ОТЗЫВЫ</h1>
             <p>Что говорят наши путешественники</p>
         </div>
 
-        <div>
+        <div class="reviews-actions">
             <a href="{{ route('reviews.create') }}" class="btn-primary">
                 Оставить отзыв
             </a>
         </div>
 
-        <div class="reviews">
+        <div class="reviews-list">
             @forelse($reviews as $review)
-                <div class="review">
+                <div class="review-card">
                     <div class="review-header">
-                        <img src="{{ $review->author_avatar }}" alt="{{ $review->author_name }}">
-                        <div>
-                            <p>{{ $review->author_name }}</p>
-                            <p>{{ $review->formatted_date }}</p>
+                        <img src="{{ $review->author_avatar }}" alt="{{ $review->author_name }}" class="review-avatar">
+                        <div class="review-author-info">
+                            <p class="author-name">{{ $review->author_name }}</p>
+                            <p class="review-date">{{ $review->formatted_date }}</p>
                         </div>
                     </div>
                     <div class="review-meta">
-                        <p>Тур: {{ $review->tour->title }}</p>
+                        <p class="review-tour">Тур: {{ $review->tour->title }}</p>
                         <div class="stars">
-                            {!! $review->star_rating !!}
+                            @for($i = 1; $i <= 5; $i++)
+                                @if($i <= $review->rating)
+                                    <span class="star filled">★</span>
+                                @else
+                                    <span class="star">☆</span>
+                                @endif
+                            @endfor
+                            <span class="rating-text">({{ $review->rating }}/5)</span>
                         </div>
                     </div>
                     <p class="review-comment">{{ $review->comment }}</p>
@@ -41,9 +48,6 @@
                 <div class="no-reviews">
                     <h3>Пока нет отзывов</h3>
                     <p>Будьте первым, кто поделится впечатлениями о наших турах!</p>
-                    <a href="{{ route('reviews.create') }}" class="btn-primary">
-                        Оставить первый отзыв
-                    </a>
                 </div>
             @endforelse
         </div>

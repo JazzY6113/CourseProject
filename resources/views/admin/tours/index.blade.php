@@ -4,6 +4,7 @@
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/admin/tours/index.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/form-styles.css') }}">
 @endsection
 
 @section('content')
@@ -86,7 +87,6 @@
         @else
             <div class="no-tours">
                 <p>Пока нет созданных туров</p>
-                <a href="{{ route('admin.tours.create') }}" class="create-btn">Создать первый тур</a>
             </div>
         @endif
     </div>

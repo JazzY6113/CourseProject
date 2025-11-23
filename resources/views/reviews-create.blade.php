@@ -4,6 +4,7 @@
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/reviews-create.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/form-styles.css') }}">
     <script src="{{ asset('js/scripts/star-rating.js') }}"></script>
 @endsection
 
@@ -50,16 +51,15 @@
                 @endguest
 
                 <div class="form-group">
-                    <label>Оценка:</label>
+                    <label>Рейтинг</label>
                     <div class="star-rating">
-                        @for($i = 5; $i >= 1; $i--)
-                            <input type="radio" id="star{{ $i }}" name="rating" value="{{ $i }}"
-                                   {{ old('rating') == $i ? 'checked' : '' }} required>
+                        @for($i = 1; $i <= 5; $i++)
+                            <input type="radio" id="star{{ $i }}" name="rating" value="{{ $i }}" {{ old('rating') == $i ? 'checked' : '' }}>
                             <label for="star{{ $i }}">★</label>
                         @endfor
                     </div>
                     @error('rating')
-                    <span>{{ $message }}</span>
+                        <span class="error">{{ $message }}</span>
                     @enderror
                 </div>
 

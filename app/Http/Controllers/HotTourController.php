@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tour;
+use Illuminate\Support\Facades\DB;
 
 class HotTourController extends Controller
 {
@@ -12,17 +13,22 @@ class HotTourController extends Controller
             ->whereHas('tourDates', function($query) {
                 $query->where('start_date', '>', now())
                     ->where('available_seats', '>', 0)
-                    ->orderBy('start_date');
+                    ->where('tour_date_status_id', 1);
             })
             ->with(['images', 'tourDates' => function($query) {
                 $query->where('start_date', '>', now())
                     ->where('available_seats', '>', 0)
+                    ->where('tour_date_status_id', 1)
                     ->orderBy('start_date')
                     ->limit(1);
             }])
             ->get()
+            ->map(function($tour) {
+                $tour->nearest_date = $tour->tourDates->first();
+                return $tour;
+            })
             ->sortBy(function($tour) {
-                return $tour->tourDates->first()->start_date ?? now()->addYears(10);
+                return $tour->nearest_date ? $tour->nearest_date->start_date : now()->addYears(10);
             })
             ->take(3);
 

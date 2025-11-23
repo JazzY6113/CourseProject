@@ -81,19 +81,6 @@ class Review extends Model
         return $this->created_at->format('d') . ' ' . $months[$this->created_at->format('n')] . ' ' . $this->created_at->format('Yг.');
     }
 
-    public function getStarRatingAttribute()
-    {
-        $stars = '';
-        for ($i = 1; $i <= 5; $i++) {
-            if ($i <= $this->rating) {
-                $stars .= '<img src="' . asset('img/звезда.svg') . '" alt="star' . $i . '" style="width: 20px; height: 20px;">';
-            } else {
-                $stars .= '<img src="' . asset('img/star-empty.svg') . '" alt="star' . $i . '" style="width: 20px; height: 20px;">';
-            }
-        }
-        return $stars;
-    }
-
     public function getShortCommentAttribute()
     {
         return strlen($this->comment) > 100
