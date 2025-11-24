@@ -5,6 +5,7 @@
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/admin/tours/index.css') }}">
     <link rel="stylesheet" href="{{ asset('css/form-styles.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/admin/bookings.css') }}">
 @endsection
 
 @section('content')
@@ -12,12 +13,9 @@
         <div class="admin-header">
             <h1 class="admin-title">Управление турами</h1>
             <div class="admin-actions">
-                <a href="{{ route('admin.reviews') }}" class="reviews-btn">
-                    Модерация отзывов
-                </a>
-                <a href="{{ route('admin.tours.create') }}" class="create-btn">
-                    Создать тур
-                </a>
+                <a href="{{ route('admin.reviews') }}" class="reviews-btn">Модерация отзывов</a>
+                <a href="{{ route('admin.bookings') }}" class="bookings-btn">Управление бронированиями</a>
+                <a href="{{ route('admin.tours.create') }}" class="create-btn">Создать тур</a>
             </div>
         </div>
 
@@ -54,7 +52,7 @@
                             @endif
                         </td>
                         <td>{{ $tour->title }}</td>
-                        <td>{{ number_format($tour->price, 0, ',', ' ') }} руб</td>
+                        <td>{{ number_format($tour->base_price, 0, ',', ' ') }} руб</td>
                         <td>
                             @if($tour->is_active)
                                 <span class="status-active">Активен</span>

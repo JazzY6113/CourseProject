@@ -1,4 +1,5 @@
 <?php
+
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
@@ -9,17 +10,49 @@ class BookingStatusSeeder extends Seeder
     public function run()
     {
         $statuses = [
-            ['id' => 1, 'booking_status_name' => 'pending'],
-            ['id' => 2, 'booking_status_name' => 'confirmed'],
-            ['id' => 3, 'booking_status_name' => 'cancelled'],
-            ['id' => 4, 'booking_status_name' => 'completed'],
+            [
+                'name' => 'pending',
+                'color' => '#ffc107',
+                'order_index' => 1,
+                'description' => 'Ожидание подтверждения'
+            ],
+            [
+                'name' => 'confirmed',
+                'color' => '#17a2b8',
+                'order_index' => 2,
+                'description' => 'Подтверждено'
+            ],
+            [
+                'name' => 'paid',
+                'color' => '#28a745',
+                'order_index' => 3,
+                'description' => 'Оплачено'
+            ],
+            [
+                'name' => 'cancelled',
+                'color' => '#dc3545',
+                'order_index' => 4,
+                'description' => 'Отменено'
+            ],
+            [
+                'name' => 'completed',
+                'color' => '#6c757d',
+                'order_index' => 5,
+                'description' => 'Завершено'
+            ],
         ];
 
         foreach ($statuses as $status) {
-            BookingStatus::updateOrCreate(
-                ['id' => $status['id']],
+            BookingStatus::firstOrCreate(
+                ['name' => $status['name']],
                 $status
             );
+        }
+
+        echo "Созданы статусы бронирований:\n";
+        $createdStatuses = BookingStatus::all();
+        foreach ($createdStatuses as $status) {
+            echo "- {$status->name}: {$status->description}\n";
         }
     }
 }

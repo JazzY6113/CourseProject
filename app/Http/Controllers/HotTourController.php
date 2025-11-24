@@ -13,12 +13,11 @@ class HotTourController extends Controller
             ->whereHas('tourDates', function($query) {
                 $query->where('start_date', '>', now())
                     ->where('available_seats', '>', 0)
-                    ->where('tour_date_status_id', 1);
+                    ->orderBy('start_date');
             })
             ->with(['images', 'tourDates' => function($query) {
                 $query->where('start_date', '>', now())
                     ->where('available_seats', '>', 0)
-                    ->where('tour_date_status_id', 1)
                     ->orderBy('start_date')
                     ->limit(1);
             }])

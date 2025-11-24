@@ -4,26 +4,33 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Role;
+use Illuminate\Support\Facades\DB;
 
 class RoleSeeder extends Seeder
 {
     public function run()
     {
         $roles = [
-            ['role_name' => 'user'],
-            ['role_name' => 'admin'],
+            [
+                'name' => 'user',
+                'description' => 'Обычный пользователь'
+            ],
+            [
+                'name' => 'admin',
+                'description' => 'Администратор'
+            ],
         ];
 
         foreach ($roles as $role) {
             Role::firstOrCreate(
-                ['role_name' => $role['role_name']],
+                ['name' => $role['name']],
                 $role
             );
         }
 
         $createdRoles = Role::all();
         foreach ($createdRoles as $role) {
-            echo "Created role: ID {$role->id} - {$role->role_name}\n";
+            echo "Created role: ID {$role->id} - {$role->name}\n";
         }
     }
 }

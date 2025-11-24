@@ -25,7 +25,7 @@
                         </div>
                         <p class="tour-description">{{ Str::limit($tour->short_description, 200) }}</p>
                         <div class="price-container">
-                            <p class="tour-price">{{ number_format($tour->price, 0, ',', ' ') }} руб</p>
+                            <p class="tour-price">{{ number_format($tour->base_price, 0, ',', ' ') }} руб</p>
                         </div>
                         <a href="{{ route('tour.detail', $tour->id) }}" class="tour-link">СМОТРЕТЬ ТУР</a>
                     </div>

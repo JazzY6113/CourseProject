@@ -15,17 +15,18 @@ class User extends Authenticatable implements MustVerifyEmail
 
     protected $fillable = [
         'role_id',
-        'password_hash',
+        'password',
         'email',
         'first_name',
         'last_name',
         'patronymic',
-        'is_email_verified',
+        'phone',
+        'is_active',
         'avatar',
     ];
 
     protected $hidden = [
-        'password_hash',
+        'password',
         'remember_token',
     ];
 
@@ -33,7 +34,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return [
             'email_verified_at' => 'datetime',
-            'is_email_verified' => 'boolean',
+            'is_active' => 'boolean',
         ];
     }
 
@@ -77,7 +78,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function getAuthPassword()
     {
-        return $this->password_hash;
+        return $this->password;
     }
 
     public function getEmailForVerification()
@@ -89,7 +90,6 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         $this->forceFill([
             'email_verified_at' => $this->freshTimestamp(),
-            'is_email_verified' => true,
         ])->save();
     }
 
@@ -101,5 +101,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function sendEmailVerificationNotification()
     {
         $this->notify(new VerifyEmailNotification());
+    }
+
+    public function isAdmin()
+    {
+        return $this->role->name === 'admin';
     }
 }

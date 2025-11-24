@@ -44,13 +44,7 @@
             <div class="form-group">
                 <label class="form-label">Цена (руб) *</label>
                 <input type="number" name="price" class="form-input" step="0.01" min="0"
-                       value="{{ old('price', $tour->price) }}" required>
-            </div>
-
-            <div class="form-group">
-                <label class="form-label">Дедлайн бронирования *</label>
-                <input type="date" name="booking_deadline" class="form-input"
-                       value="{{ old('booking_deadline', $tour->booking_deadline->format('Y-m-d')) }}" required>
+                       value="{{ old('price', $tour->base_price) }}" required>
             </div>
 
             <div class="form-group">
@@ -66,9 +60,26 @@
             </div>
 
             <div class="form-group checkbox-group">
+                <input type="hidden" name="is_active" value="0">
                 <input type="checkbox" name="is_active" class="form-checkbox"
                        value="1" {{ old('is_active', $tour->is_active) ? 'checked' : '' }} id="is_active">
                 <label class="form-label" for="is_active">Активный тур</label>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Мин. размер группы</label>
+                <input type="number" name="min_group_size" class="form-input" min="1" value="{{ old('min_group_size', $tour->min_group_size) }}">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Дней до дедлайна бронирования</label>
+                <input type="number" name="booking_deadline_days" class="form-input" min="1"
+                       value="{{ old('booking_deadline_days', $tour->booking_deadline_days) }}">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Что включено (каждый пункт с новой строки)</label>
+                <textarea name="included" class="form-textarea" rows="3">@if($tour->included){{ implode("\n", json_decode($tour->included, true)) }}@endif</textarea>
             </div>
 
             <div class="form-group">

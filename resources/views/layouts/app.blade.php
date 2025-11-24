@@ -25,15 +25,14 @@
             <a href="{{ url('/reviews') }}">отзывы</a>
             <a href="{{ url('/contact') }}">контакты</a>
             @auth
+                <a href="{{ route('booking.user-list') }}">мои бронирования</a>
                 <a href="{{ route('profile') }}">личный кабинет ({{ Auth::user()->first_name }})</a>
-                <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                    выход
-                </a>
+                <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">выход</a>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     @csrf
                 </form>
-                @if(Auth::user()->role_id === 2)
-                    <li><a href="{{ route('admin.tours') }}">Админка</a></li>
+                @if(Auth::user()->isAdmin())
+                    <a href="{{ route('admin.tours') }}">Админка</a>
                 @endif
             @else
                 <a href="{{ url('/login') }}">войти</a>
@@ -113,7 +112,7 @@
                 <a href=""><img src="{{ asset('img/instagram.svg') }}" alt="instagram"></a>
                 <a href=""><img src="{{ asset('img/vk.svg') }}" alt="vk"></a>
             </div>
-            <p>2024</p>
+            <p>2025</p>
         </div>
     </div>
 </footer>

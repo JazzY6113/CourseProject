@@ -7,14 +7,16 @@ use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\TourController;
 use App\Http\Controllers\HotTourController;
+use App\Http\Controllers\BookingController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\BookingController as AdminBookingController;
 
 Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/tour', [TourController::class, 'index'])->name('tour');
 Route::get('/hot', [HotTourController::class, 'index'])->name('hot');
 Route::get('/aboutus', [PageController::class, 'aboutus'])->name('aboutus');
-Route::get('/reviews', [PageController::class, 'reviews'])->name('reviews');
+Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews');
 Route::get('/contact', [PageController::class, 'contact'])->name('contact');
 
 Route::get('/tours/{id}', [TourController::class, 'show'])->name('tour.detail');
@@ -83,11 +85,15 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::post('/api/bookings', [App\Http\Controllers\BookingController::class, 'store'])->name('bookings.store');
-    Route::put('/api/bookings/{id}/cancel', [App\Http\Controllers\BookingController::class, 'cancel'])->name('bookings.cancel');
+    Route::get('/booking/{tourDate}', [BookingController::class, 'showBookingForm'])->name('booking.form');
+    Route::post('/booking', [BookingController::class, 'store'])->name('booking.store');
+    Route::post('/booking/{booking}/confirm', [BookingController::class, 'confirm'])->name('booking.confirm');
+    Route::post('/booking/{booking}/cancel', [BookingController::class, 'cancel'])->name('booking.cancel');
+    Route::get('/my-bookings', [BookingController::class, 'userBookings'])->name('booking.user-list');
 });
 
-Route::middleware('auth')->group(function () {
-    Route::post('/bookings', [App\Http\Controllers\BookingController::class, 'store'])->name('bookings.store');
-    Route::put('/bookings/{id}/cancel', [App\Http\Controllers\BookingController::class, 'cancel'])->name('bookings.cancel');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admin/bookings', [AdminBookingController::class, 'index'])->name('admin.bookings');
+    Route::put('/admin/bookings/{id}/status', [AdminBookingController::class, 'updateStatus'])->name('admin.bookings.update-status');
+    Route::get('/admin/bookings/{id}', [AdminBookingController::class, 'show'])->name('admin.bookings.show');
 });

@@ -63,7 +63,7 @@ class ReviewController extends Controller
 
     public function adminIndex()
     {
-        if (Auth::user()->role_id !== 2) {
+        if (!Auth::user()->isAdmin()) {
             abort(403, 'Доступ запрещен');
         }
 

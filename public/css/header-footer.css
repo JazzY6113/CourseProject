@@ -55,17 +55,13 @@ header {
 }
 
 .menu {
-    width: 80%;
+    width: 85%;
     display: flex;
     justify-content: space-between;
 }
 
 .menu > a {
     font-size: 12pt;
-}
-
-.menu > a:hover {
-    text-transform: uppercase;
 }
 
 footer {

@@ -39,7 +39,7 @@ class AuthController extends Controller
             'patronymic.regex'      => 'Отчество должно содержать только кириллические символы и начинаться с заглавной буквы.',
         ]);
 
-        $role = Role::firstOrCreate(['role_name' => 'user']);
+        $role = Role::firstOrCreate(['name' => 'user']);
 
         $user = User::create([
             'role_id'          => $role->id,
@@ -47,8 +47,8 @@ class AuthController extends Controller
             'last_name'        => $validated['last_name'],
             'patronymic'       => $validated['patronymic'] ?? null,
             'email'            => $validated['email'],
-            'password_hash'    => Hash::make($validated['password']),
-            'is_email_verified'=> false,
+            'password'         => Hash::make($validated['password']),
+            'is_active'        => true,
         ]);
 
         event(new Registered($user));
@@ -76,7 +76,7 @@ class AuthController extends Controller
 
         $user = User::where('email', $credentials['email'])->first();
 
-        if (!$user || !Hash::check($credentials['password'], $user->password_hash)) {
+        if (!$user || !Hash::check($credentials['password'], $user->password)) {
             throw ValidationException::withMessages([
                 'email' => 'Неверный e-mail или пароль.',
             ]);

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class TourController extends Controller
 {
@@ -26,7 +27,7 @@ class TourController extends Controller
 
     public function adminIndex()
     {
-        if (Auth::user()->role_id !== 2) {
+        if (!Auth::user()->isAdmin()) {
             abort(403, 'Доступ запрещен');
         }
 
@@ -40,24 +41,17 @@ class TourController extends Controller
             'tourDates' => function($query) {
                 $query->where('start_date', '>', now())
                     ->where('available_seats', '>', 0)
-                    ->where('tour_date_status_id', 1)
                     ->orderBy('start_date');
             },
-            'tourDates.tourDateStatus',
             'images'
         ])->findOrFail($id);
-
-        \Log::info('Tour dates for tour ' . $id . ': ' . $tour->tourDates->count());
-        foreach ($tour->tourDates as $date) {
-            \Log::info('Date ID: ' . $date->id . ', Start: ' . $date->start_date . ', Seats: ' . $date->available_seats . ', Status: ' . $date->tour_date_status_id);
-        }
 
         return view('tour-detail', compact('tour'));
     }
 
     public function create()
     {
-        if (Auth::user()->role_id !== 2) {
+        if (!Auth::user()->isAdmin()) {
             abort(403, 'Доступ запрещен');
         }
 
@@ -66,7 +60,7 @@ class TourController extends Controller
 
     public function store(Request $request)
     {
-        if (Auth::user()->role_id !== 2) {
+        if (!Auth::user()->isAdmin()) {
             abort(403, 'Доступ запрещен');
         }
 
@@ -75,13 +69,44 @@ class TourController extends Controller
             'short_description' => 'required|string|max:255',
             'full_description' => 'required|string',
             'price' => 'required|numeric|min:0',
-            'booking_deadline' => 'required|date',
             'duration_days' => 'required|integer|min:1',
             'max_group_size' => 'required|integer|min:1',
+            'min_group_size' => 'nullable|integer|min:1',
+            'booking_deadline_days' => 'nullable|integer|min:1',
+            'included' => 'nullable|string',
+            'not_included' => 'nullable|string',
+            'requirements' => 'nullable|string',
             'images.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $tour = Tour::create($validated);
+        $slug = Str::slug($validated['title']);
+        $originalSlug = $slug;
+        $counter = 1;
+
+        while (Tour::where('slug', $slug)->exists()) {
+            $slug = $originalSlug . '-' . $counter;
+            $counter++;
+        }
+
+        $tourData = [
+            'title' => $validated['title'],
+            'slug' => $slug,
+            'short_description' => $validated['short_description'],
+            'full_description' => $validated['full_description'],
+            'base_price' => $validated['price'],
+            'duration_days' => $validated['duration_days'],
+            'max_group_size' => $validated['max_group_size'],
+            'min_group_size' => $validated['min_group_size'] ?? 1,
+            'booking_deadline_days' => $validated['booking_deadline_days'] ?? 7,
+            'included' => $validated['included'] ? json_encode(explode("\n", $validated['included'])) : null,
+            'not_included' => $validated['not_included'] ? json_encode(explode("\n", $validated['not_included'])) : null,
+            'requirements' => $validated['requirements'] ? json_encode(explode("\n", $validated['requirements'])) : null,
+            'is_active' => true,
+        ];
+
+        $tour = Tour::create($tourData);
+
+        $this->createDefaultTourDates($tour);
 
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $index => $image) {
@@ -91,6 +116,7 @@ class TourController extends Controller
                     'tour_id' => $tour->id,
                     'image_path' => $path,
                     'order_index' => $index,
+                    'is_main' => $index === 0,
                 ]);
             }
         }
@@ -98,9 +124,33 @@ class TourController extends Controller
         return redirect()->route('admin.tours')->with('success', 'Тур успешно создан!');
     }
 
+    private function createDefaultTourDates($tour)
+    {
+        $startDates = [
+            now()->addDays(15),
+            now()->addDays(30),
+            now()->addDays(45),
+            now()->addDays(60),
+        ];
+
+        foreach ($startDates as $index => $startDate) {
+            $endDate = $startDate->copy()->addDays($tour->duration_days - 1);
+
+            \App\Models\TourDate::create([
+                'tour_id' => $tour->id,
+                'start_date' => $startDate,
+                'end_date' => $endDate,
+                'available_seats' => $tour->max_group_size,
+                'current_price' => $tour->base_price * (1 + ($index * 0.1)),
+                'is_guaranteed' => $index <= 1,
+                'notes' => $index <= 1 ? 'Гарантированный departure' : null,
+            ]);
+        }
+    }
+
     public function edit($id)
     {
-        if (Auth::user()->role_id !== 2) {
+        if (!Auth::user()->isAdmin()) {
             abort(403, 'Доступ запрещен');
         }
 
@@ -110,7 +160,7 @@ class TourController extends Controller
 
     public function update(Request $request, $id)
     {
-        if (Auth::user()->role_id !== 2) {
+        if (!Auth::user()->isAdmin()) {
             abort(403, 'Доступ запрещен');
         }
 
@@ -121,14 +171,40 @@ class TourController extends Controller
             'short_description' => 'sometimes|string|max:255',
             'full_description' => 'sometimes|string',
             'price' => 'sometimes|numeric|min:0',
-            'booking_deadline' => 'sometimes|date',
-            'is_active' => 'sometimes|boolean',
             'duration_days' => 'sometimes|integer|min:1',
             'max_group_size' => 'sometimes|integer|min:1',
+            'min_group_size' => 'nullable|integer|min:1',
+            'booking_deadline_days' => 'nullable|integer|min:1',
+            'included' => 'nullable|string',
+            'not_included' => 'nullable|string',
+            'requirements' => 'nullable|string',
+            'is_active' => 'sometimes|boolean',
             'images.*' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $tour->update($validated);
+        $updateData = [
+            'title' => $validated['title'] ?? $tour->title,
+            'short_description' => $validated['short_description'] ?? $tour->short_description,
+            'full_description' => $validated['full_description'] ?? $tour->full_description,
+            'base_price' => $validated['price'] ?? $tour->base_price,
+            'duration_days' => $validated['duration_days'] ?? $tour->duration_days,
+            'max_group_size' => $validated['max_group_size'] ?? $tour->max_group_size,
+            'min_group_size' => $validated['min_group_size'] ?? $tour->min_group_size,
+            'booking_deadline_days' => $validated['booking_deadline_days'] ?? $tour->booking_deadline_days,
+            'is_active' => $validated['is_active'] ?? $tour->is_active,
+        ];
+
+        if (isset($validated['included'])) {
+            $updateData['included'] = json_encode(explode("\n", $validated['included']));
+        }
+        if (isset($validated['not_included'])) {
+            $updateData['not_included'] = json_encode(explode("\n", $validated['not_included']));
+        }
+        if (isset($validated['requirements'])) {
+            $updateData['requirements'] = json_encode(explode("\n", $validated['requirements']));
+        }
+
+        $tour->update($updateData);
 
         if ($request->hasFile('images')) {
             foreach ($tour->images as $image) {
@@ -136,6 +212,7 @@ class TourController extends Controller
                 $image->delete();
             }
 
+            // Добавляем новые
             foreach ($request->file('images') as $index => $image) {
                 $path = $image->store('tour-images', 'public');
 
@@ -143,6 +220,7 @@ class TourController extends Controller
                     'tour_id' => $tour->id,
                     'image_path' => $path,
                     'order_index' => $index,
+                    'is_main' => $index === 0,
                 ]);
             }
         }
@@ -152,7 +230,7 @@ class TourController extends Controller
 
     public function destroy($id)
     {
-        if (Auth::user()->role_id !== 2) {
+        if (!Auth::user()->isAdmin()) {
             abort(403, 'Доступ запрещен');
         }
 

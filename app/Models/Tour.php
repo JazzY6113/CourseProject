@@ -11,22 +11,33 @@ class Tour extends Model
 
     protected $fillable = [
         'title',
+        'slug',
         'short_description',
         'full_description',
-        'price',
-        'booking_deadline',
-        'is_active',
+        'base_price',
         'duration_days',
         'max_group_size',
+        'min_group_size',
+        'included',
+        'not_included',
+        'requirements',
+        'is_active',
+        'is_hot',
+        'booking_deadline_days',
     ];
 
-    protected function casts(): array
+    protected $casts = [
+        'base_price' => 'decimal:2',
+        'is_active' => 'boolean',
+        'is_hot' => 'boolean',
+        'included' => 'array',
+        'not_included' => 'array',
+        'requirements' => 'array',
+    ];
+
+    public function images()
     {
-        return [
-            'booking_deadline' => 'datetime',
-            'is_active' => 'boolean',
-            'price' => 'decimal:2',
-        ];
+        return $this->hasMany(TourImage::class)->orderBy('order_index');
     }
 
     public function tourDates()
@@ -34,50 +45,46 @@ class Tour extends Model
         return $this->hasMany(TourDate::class);
     }
 
-    public function bookings()
+    public function reviews()
     {
-        return $this->hasManyThrough(Booking::class, TourDate::class);
+        return $this->hasMany(Review::class)->where('status', 'approved');
     }
 
-    public function images()
+    public function activeTourDates()
     {
-        return $this->hasMany(TourImage::class)->orderBy('order_index');
-    }
-
-    public static function getHotTours()
-    {
-        return self::where('is_active', true)
-            ->whereHas('tourDates', function($query) {
-                $query->where('start_date', '>', now())
-                    ->where('available_seats', '>', 0)
-                    ->orderBy('start_date');
-            })
-            ->with(['tourDates' => function($query) {
-                $query->where('start_date', '>', now())
-                    ->where('available_seats', '>', 0)
-                    ->orderBy('start_date')
-                    ->limit(1);
-            }])
-            ->get()
-            ->sortBy(function($tour) {
-                return $tour->tourDates->first()->start_date ?? now()->addYears(10);
-            })
-            ->take(3);
-    }
-
-    public static function getAllActiveTours()
-    {
-        return self::where('is_active', true)
-            ->with(['images', 'tourDates' => function($query) {
-                $query->where('start_date', '>', now())
-                    ->where('available_seats', '>', 0)
-                    ->orderBy('start_date');
-            }])
-            ->get();
+        return $this->hasMany(TourDate::class)
+            ->where('start_date', '>', now())
+            ->where('available_seats', '>', 0)
+            ->orderBy('start_date');
     }
 
     public function getMainImageAttribute()
     {
-        return $this->images->first()->image_path ?? null;
+        return $this->images->where('is_main', true)->first()
+            ?? $this->images->first();
+    }
+
+    public function getAverageRatingAttribute()
+    {
+        return $this->reviews()->avg('rating') ?? 0;
+    }
+
+    public function getReviewsCountAttribute()
+    {
+        return $this->reviews()->count();
+    }
+
+    public function getNextDepartureAttribute()
+    {
+        return $this->activeTourDates()->first();
+    }
+
+    public function getBookingDeadlineForNextDepartureAttribute()
+    {
+        $nextDeparture = $this->nextDeparture;
+        if ($nextDeparture) {
+            return $nextDeparture->start_date->subDays($this->booking_deadline_days);
+        }
+        return null;
     }
 }

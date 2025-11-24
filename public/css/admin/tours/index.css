@@ -207,7 +207,30 @@
     color: #333;
 }
 
-/* Responsive styles */
+.bookings-btn {
+    background: #6f42c1;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 500;
+}
+
+.bookings-btn:hover {
+    background: #5a32a3;
+    color: white;
+    text-decoration: none;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
 @media (max-width: 768px) {
     .admin-container {
         padding: 15px;
@@ -223,8 +246,8 @@
     }
 
     .admin-actions {
+        flex-direction: column;
         width: 100%;
-        justify-content: flex-start;
     }
 
     .action-btns {
@@ -247,9 +270,11 @@
     }
 
     .create-btn,
-    .reviews-btn {
-        padding: 8px 16px;
-        font-size: 13px;
+    .reviews-btn,
+    .bookings-btn {
+        width: 100%;
+        justify-content: center;
+        text-align: center;
     }
 }
 

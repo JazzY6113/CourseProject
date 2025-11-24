@@ -10,7 +10,10 @@ class BookingStatus extends Model
     use HasFactory;
 
     protected $fillable = [
-        'booking_status_name',
+        'name',
+        'color',
+        'order_index',
+        'description',
     ];
 
     public function bookings()

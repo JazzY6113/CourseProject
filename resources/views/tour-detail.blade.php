@@ -92,57 +92,51 @@
                     <div class="price-info">
                         <span class="price-label">от</span>
                         <span class="price-amount" id="currentPrice">
-                        @if($tour->tourDates->count() > 0)
-                                {{ number_format($tour->tourDates->where('start_date', '>', now())->where('available_seats', '>', 0)->min('current_price') ?? $tour->price, 0, ',', ' ') }}
+                            @if($tour->activeTourDates->count() > 0)
+                                {{ number_format($tour->activeTourDates->min('current_price'), 0, ',', ' ') }}
                             @else
-                                {{ number_format($tour->price, 0, ',', ' ') }}
+                                {{ number_format($tour->base_price, 0, ',', ' ') }}
                             @endif
-                    </span>
+                        </span>
                         <span class="price-currency">руб</span>
                     </div>
 
+                    @if($tour->activeTourDates->count() > 0)
+                        <div class="available-dates">
+                            <h3>Доступные даты:</h3>
+                            <div class="dates-list">
+                                @foreach($tour->activeTourDates as $date)
+                                    <div class="date-option">
+                                        <div class="date-info">
+                                            <strong>{{ $date->start_date->format('d.m.Y') }} - {{ $date->end_date->format('d.m.Y') }}</strong>
+                                            <span class="seats-available">Осталось мест: {{ $date->available_seats }}</span>
+                                            <span class="date-price">{{ number_format($date->current_price, 0, ',', ' ') }} руб</span>
+                                        </div>
+                                        @auth
+                                            <a href="{{ route('booking.form', $date->id) }}" class="book-date-btn">
+                                                Выбрать дату
+                                            </a>
+                                        @else
+                                            <a href="{{ route('login') }}" class="book-date-btn">
+                                                Войти для бронирования
+                                            </a>
+                                        @endauth
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    @else
+                        <div class="no-dates-available">
+                            <p>На данный момент нет доступных дат для этого тура</p>
+                        </div>
+                    @endif
+
                     @auth
-                        <form id="bookingForm" action="{{ route('bookings.store') }}" method="POST" class="booking-form">
-                            @csrf
-                            <input type="hidden" name="tour_date_id" id="selectedTourDateId" value="">
-
-                            <div class="form-group">
-                                <label for="guests_count">Количество гостей</label>
-                                <select name="guests_count" id="guests_count" required>
-                                    <option value="">Выберите количество</option>
-                                    @for($i = 1; $i <= 10; $i++)
-                                        <option value="{{ $i }}">{{ $i }} {{ trans_choice('человек|человека|человек', $i) }}</option>
-                                    @endfor
-                                </select>
+                        @if($tour->activeTourDates->count() === 0)
+                            <div class="auth-required">
+                                <p>Следите за обновлениями - новые даты появятся скоро!</p>
                             </div>
-
-                            <div class="form-group">
-                                <label for="contact_phone">Контактный телефон</label>
-                                <input type="tel"
-                                       name="contact_phone"
-                                       id="contact_phone"
-                                       value="{{ Auth::user()->phone ?? '' }}"
-                                       required
-                                       placeholder="+7 (XXX) XXX-XX-XX">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="special_requests">Особые пожелания (необязательно)</label>
-                                <textarea name="special_requests"
-                                          id="special_requests"
-                                          rows="3"
-                                          placeholder="Ваши пожелания..."></textarea>
-                            </div>
-
-                            <div class="total-price">
-                                <strong>Итого: </strong>
-                                <span id="totalPrice">0 руб</span>
-                            </div>
-
-                            <button type="submit" class="book-button" id="bookButton" disabled>
-                                Забронировать
-                            </button>
-                        </form>
+                        @endif
                     @else
                         <div class="auth-required">
                             <p>Для бронирования тура необходимо <a href="{{ route('login') }}">войти</a> в систему</p>
@@ -156,12 +150,12 @@
         <div class="tour-additional-info">
             <div class="info-card">
                 <h3>📅 Срок бронирования</h3>
-                <p>До {{ $tour->booking_deadline->format('d.m.Y') }}</p>
+                <p>За {{ $tour->booking_deadline_days }} {{ trans_choice('день|дня|дней', $tour->booking_deadline_days) }} до начала тура</p>
             </div>
 
             <div class="info-card">
                 <h3>👥 Размер группы</h3>
-                <p>До {{ $tour->max_group_size }} человек</p>
+                <p>От {{ $tour->min_group_size }} до {{ $tour->max_group_size }} человек</p>
             </div>
 
             <div class="info-card">
