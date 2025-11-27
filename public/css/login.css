@@ -96,25 +96,6 @@ main {
     width: 100%;
 }
 
-.button-text {
-    font-size: 18pt;
-    border: 1px solid red;
-    border-radius: 30px;
-    padding: 3% 7%;
-    text-align: center;
-    background-color: white;
-    color: black;
-    text-decoration: none;
-    display: inline-block;
-    width: 100%;
-    transition: all 0.3s ease;
-}
-
-.button-text:hover {
-    background-color: red;
-    color: white;
-}
-
 .form-links {
     margin-top: 20px;
     text-align: center;

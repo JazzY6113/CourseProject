@@ -8,3 +8,34 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    const commentTextarea = document.getElementById('comment');
+    const charCount = document.getElementById('charCount');
+
+    if (commentTextarea && charCount) {
+        commentTextarea.addEventListener('input', function() {
+            charCount.textContent = this.value.length;
+
+            if (this.value.length > 900) {
+                charCount.style.color = '#dc3545';
+            } else if (this.value.length > 800) {
+                charCount.style.color = '#ffc107';
+            } else {
+                charCount.style.color = '#6c757d';
+            }
+        });
+
+        charCount.textContent = commentTextarea.value.length;
+    }
+
+    const form = document.querySelector('.review-form');
+    form.addEventListener('submit', function(e) {
+        const rating = document.querySelector('input[name="rating"]:checked');
+        if (!rating) {
+            e.preventDefault();
+            alert('Пожалуйста, поставьте оценку туру');
+            return false;
+        }
+    });
+});

@@ -43,12 +43,27 @@ main {
 }
 
 .main-wrapper > div:last-child > div:last-child > a {
-    font-size: 18pt;
-    border: 1px solid red;
-    border-radius: 30px;
     margin: 2% 0 0 0;
     padding: 5% 10%;
     text-align: center;
+}
+
+.main-wrapper a {
+    font-size: 18pt;
+    border: 1px solid red;
+    border-radius: 30px;
+    padding: 3% 7%;
+    text-align: center;
+    color: black;
+    text-decoration: none;
+    display: inline-block;
+    width: 100%;
+    transition: all 0.3s ease;
+}
+
+.main-wrapper a:hover {
+    background-color: red;
+    color: white;
 }
 
 @media (max-width: 850px) {

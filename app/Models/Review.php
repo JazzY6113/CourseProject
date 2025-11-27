@@ -35,7 +35,13 @@ class Review extends Model
     public function getAuthorNameAttribute()
     {
         if ($this->user_id && $this->user) {
-            return $this->user->first_name . ' ' . $this->user->last_name;
+            $firstName = $this->user->first_name ?? '';
+            $lastName = $this->user->last_name ?? '';
+            $fullName = trim($firstName . ' ' . $lastName);
+
+            if (!empty($fullName)) {
+                return $fullName;
+            }
         }
 
         return $this->attributes['author_name'] ?? 'Анонимный пользователь';
@@ -43,7 +49,7 @@ class Review extends Model
 
     public function getAuthorAvatarAttribute()
     {
-        if ($this->user_id && $this->user) {
+        if ($this->user_id && $this->user && $this->user->avatar_url) {
             return $this->user->avatar_url;
         }
 

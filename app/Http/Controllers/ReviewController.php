@@ -37,9 +37,11 @@ class ReviewController extends Controller
         ]);
 
         $userId = Auth::id();
-        $authorName = $userId ? null : $request->author_name;
 
         if ($userId) {
+            $user = Auth::user();
+            $authorName = $user->first_name . ' ' . $user->last_name;
+
             $existingReview = Review::where('user_id', $userId)
                 ->where('tour_id', $request->tour_id)
                 ->first();
@@ -47,6 +49,12 @@ class ReviewController extends Controller
             if ($existingReview) {
                 return back()->with('error', 'Вы уже оставляли отзыв на этот тур.');
             }
+        } else {
+            $authorName = $request->author_name;
+        }
+
+        if (empty(trim($authorName))) {
+            return back()->with('error', 'Пожалуйста, укажите ваше имя.');
         }
 
         Review::create([
@@ -55,7 +63,7 @@ class ReviewController extends Controller
             'author_name' => $authorName,
             'rating' => $request->rating,
             'comment' => $request->comment,
-            'status' => 'pending', // На модерации
+            'status' => 'pending',
         ]);
 
         return redirect()->route('reviews')->with('success', 'Отзыв отправлен на модерацию. Спасибо!');

@@ -10,17 +10,12 @@
 
 @section('content')
     <div class="tour-detail-wrapper">
-        <div class="breadcrumbs">
-            <a href="{{ route('home') }}">Главная</a> >
-            <a href="{{ route('tour') }}">Туры</a> >
-            <span>{{ $tour->title }}</span>
-        </div>
 
         <div class="tour-header">
             <h1 class="tour-title">{{ $tour->title }}</h1>
             <div class="tour-meta">
-                <span class="duration">⏱ {{ $tour->duration_days }} дней</span>
-                <span class="group-size">👥 До {{ $tour->max_group_size }} человек</span>
+                <span class="duration">{{ $tour->duration_days }} дней</span>
+                <span class="group-size">До {{ $tour->max_group_size }} человек</span>
             </div>
         </div>
 
