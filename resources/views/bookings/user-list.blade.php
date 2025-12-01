@@ -4,7 +4,7 @@
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/booking-list.css') }}">
-    <script src="{{ asset('js/scripts/booking-cancel.js') }}"></script>
+    <script src="{{ asset('js/scripts/booking-cancel.js') }}" defer></script>
 @endsection
 
 @section('content')

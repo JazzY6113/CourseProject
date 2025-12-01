@@ -9,7 +9,7 @@
 @section('content')
     <div class="main-wrapper">
         <div class="page-title">
-            <p>КОНТАКТЫ</p>
+            <h1>КОНТАКТЫ</h1>
         </div>
         <div class="contacts">
             <div class="first-line">

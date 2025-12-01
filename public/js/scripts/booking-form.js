@@ -1,95 +1,164 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const bookingForm = document.getElementById('bookingForm');
-    const adultsSelect = document.getElementById('adults_count');
-    const childrenSelect = document.getElementById('children_count');
+class BookingForm {
+    constructor() {
+        this.form = document.getElementById('bookingForm');
+        this.adultsSelect = document.getElementById('adults_count');
+        this.childrenSelect = document.getElementById('children_count');
+        this.bookButton = document.getElementById('bookButton');
 
-    const adultPrice = parseFloat(bookingForm.dataset.adultPrice);
-    const availableSeats = parseInt(bookingForm.dataset.availableSeats);
-    const childPrice = adultPrice * 0.7;
-
-    function updatePrice() {
-        const adults = parseInt(adultsSelect.value) || 0;
-        const children = parseInt(childrenSelect.value) || 0;
-        const totalParticipants = adults + children;
-
-        const adultsTotal = adults * adultPrice;
-        const childrenTotal = children * childPrice;
-        const total = adultsTotal + childrenTotal;
-
-        document.getElementById('adultsPrice').textContent = adultsTotal.toLocaleString('ru-RU') + ' руб';
-        document.getElementById('childrenPrice').textContent = childrenTotal.toLocaleString('ru-RU') + ' руб';
-        document.getElementById('totalPrice').textContent = total.toLocaleString('ru-RU') + ' руб';
-
-        const bookButton = document.getElementById('bookButton');
-        bookButton.disabled = adults === 0 || totalParticipants > availableSeats;
-
-        if (bookButton.disabled) {
-            bookButton.textContent = totalParticipants > availableSeats ?
-                'Недостаточно мест' : 'Выберите количество участников';
-        } else {
-            bookButton.textContent = 'Забронировать';
+        if (this.form) {
+            this.init();
         }
-
-        generateParticipantFields(adults, children);
     }
 
-    function generateParticipantFields(adults, children) {
+    init() {
+        this.adultPrice = parseFloat(this.form.dataset.adultPrice);
+        this.availableSeats = parseInt(this.form.dataset.availableSeats);
+        this.childPrice = this.adultPrice * 0.7;
+
+        this.setupEventListeners();
+        this.updatePrice();
+    }
+
+    setupEventListeners() {
+        this.adultsSelect.addEventListener('change', () => this.updatePrice());
+        this.childrenSelect.addEventListener('change', () => this.updatePrice());
+        this.form.addEventListener('submit', (e) => this.handleSubmit(e));
+    }
+
+    updatePrice() {
+        const adults = parseInt(this.adultsSelect.value) || 0;
+        const children = parseInt(this.childrenSelect.value) || 0;
+        const totalParticipants = adults + children;
+
+        const adultsTotal = adults * this.adultPrice;
+        const childrenTotal = children * this.childPrice;
+        const total = adultsTotal + childrenTotal;
+
+        this.updatePriceDisplay(adultsTotal, childrenTotal, total);
+
+        this.updateButtonState(adults, totalParticipants);
+
+        this.generateParticipantFields(adults, children);
+    }
+
+    updatePriceDisplay(adultsTotal, childrenTotal, total) {
+        const formatPrice = (price) => price.toLocaleString('ru-RU') + ' руб';
+
+        document.getElementById('adultsPrice').textContent = formatPrice(adultsTotal);
+        document.getElementById('childrenPrice').textContent = formatPrice(childrenTotal);
+        document.getElementById('totalPrice').textContent = formatPrice(total);
+    }
+
+    updateButtonState(adults, totalParticipants) {
+        const isDisabled = adults === 0 || totalParticipants > this.availableSeats;
+
+        this.bookButton.disabled = isDisabled;
+
+        if (isDisabled) {
+            this.bookButton.textContent = totalParticipants > this.availableSeats
+                ? 'Недостаточно мест'
+                : 'Выберите количество участников';
+        } else {
+            this.bookButton.textContent = 'Забронировать';
+        }
+    }
+
+    generateParticipantFields(adults, children) {
         const adultsFields = document.getElementById('adultsFields');
         const childrenFields = document.getElementById('childrenFields');
+        const participantsInfo = document.getElementById('participantsInfo');
 
-        adultsFields.innerHTML = '';
-        childrenFields.innerHTML = '';
+        adultsFields.innerHTML = this.generateAdultFields(adults);
+        childrenFields.innerHTML = this.generateChildrenFields(children);
 
-        for (let i = 1; i <= adults; i++) {
-            adultsFields.innerHTML += `
+        participantsInfo.style.display = (adults + children) > 0 ? 'block' : 'none';
+    }
+
+    generateAdultFields(count) {
+        let html = '';
+        for (let i = 1; i <= count; i++) {
+            html += `
                 <div class="participant-field">
                     <h6>Взрослый ${i}</h6>
                     <div class="field-row">
                         <input type="text" name="participants[adult_${i}][first_name]"
-                               placeholder="Имя" required>
+                               placeholder="Имя" required
+                               data-validate="cyrillic">
                         <input type="text" name="participants[adult_${i}][last_name]"
-                               placeholder="Фамилия" required>
+                               placeholder="Фамилия" required
+                               data-validate="cyrillic">
                     </div>
                     <input type="date" name="participants[adult_${i}][birth_date]"
-                           placeholder="Дата рождения">
+                           placeholder="Дата рождения" class="form-input">
                 </div>
             `;
         }
+        return html;
+    }
 
-        for (let i = 1; i <= children; i++) {
-            childrenFields.innerHTML += `
+    generateChildrenFields(count) {
+        let html = '';
+        for (let i = 1; i <= count; i++) {
+            html += `
                 <div class="participant-field">
                     <h6>Ребенок ${i}</h6>
                     <div class="field-row">
                         <input type="text" name="participants[child_${i}][first_name]"
-                               placeholder="Имя" required>
+                               placeholder="Имя" required
+                               data-validate="cyrillic">
                         <input type="text" name="participants[child_${i}][last_name]"
-                               placeholder="Фамилия" required>
+                               placeholder="Фамилия" required
+                               data-validate="cyrillic">
                     </div>
                     <input type="date" name="participants[child_${i}][birth_date]"
-                           placeholder="Дата рождения" required>
+                           placeholder="Дата рождения" required class="form-input">
                 </div>
             `;
         }
-
-        const participantsInfo = document.getElementById('participantsInfo');
-        participantsInfo.style.display = (adults + children) > 0 ? 'block' : 'none';
+        return html;
     }
 
-    bookingForm.addEventListener('submit', function(e) {
+    async handleSubmit(e) {
         e.preventDefault();
 
-        const bookButton = document.getElementById('bookButton');
-        const originalText = bookButton.textContent;
+        const originalText = this.bookButton.textContent;
 
-        bookButton.disabled = true;
-        bookButton.textContent = 'Бронируем...';
+        this.bookButton.disabled = true;
+        this.bookButton.textContent = 'Бронируем...';
 
+        try {
+            const formData = this.prepareFormData();
+            const response = await this.submitBooking(formData);
+
+            if (response.success) {
+                this.showSuccess(response.message);
+                setTimeout(() => {
+                    window.location.href = '/my-bookings';
+                }, 2000);
+            } else {
+                throw new Error(response.message);
+            }
+        } catch (error) {
+            this.showError(error.message);
+            this.bookButton.disabled = false;
+            this.bookButton.textContent = originalText;
+        }
+    }
+
+    prepareFormData() {
+        const formData = new FormData(this.form);
+        const participants = this.collectParticipantsData();
+
+        formData.append('participants', JSON.stringify(participants));
+        return formData;
+    }
+
+    collectParticipantsData() {
         const participants = {};
-        const adultFields = document.querySelectorAll('[name^="participants[adult_"]');
-        const childFields = document.querySelectorAll('[name^="participants[child_"]');
+        const adults = parseInt(this.adultsSelect.value);
+        const children = parseInt(this.childrenSelect.value);
 
-        for (let i = 1; i <= parseInt(adultsSelect.value); i++) {
+        for (let i = 1; i <= adults; i++) {
             participants[`adult_${i}`] = {
                 first_name: document.querySelector(`[name="participants[adult_${i}][first_name]"]`).value,
                 last_name: document.querySelector(`[name="participants[adult_${i}][last_name]"]`).value,
@@ -97,7 +166,7 @@ document.addEventListener('DOMContentLoaded', function() {
             };
         }
 
-        for (let i = 1; i <= parseInt(childrenSelect.value); i++) {
+        for (let i = 1; i <= children; i++) {
             participants[`child_${i}`] = {
                 first_name: document.querySelector(`[name="participants[child_${i}][first_name]"]`).value,
                 last_name: document.querySelector(`[name="participants[child_${i}][last_name]"]`).value,
@@ -105,38 +174,64 @@ document.addEventListener('DOMContentLoaded', function() {
             };
         }
 
-        const formData = new FormData(bookingForm);
-        formData.append('participants', JSON.stringify(participants));
+        return participants;
+    }
 
-        fetch(bookingForm.action, {
+    async submitBooking(formData) {
+        const response = await fetch(this.form.action, {
             method: 'POST',
             body: formData,
             headers: {
                 'X-Requested-With': 'XMLHttpRequest',
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             }
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert(data.message);
-                    window.location.href = '/my-bookings';
-                } else {
-                    alert('Ошибка: ' + data.message);
-                    bookButton.disabled = false;
-                    bookButton.textContent = originalText;
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Произошла ошибка при бронировании');
-                bookButton.disabled = false;
-                bookButton.textContent = originalText;
-            });
-    });
+        });
 
-    adultsSelect.addEventListener('change', updatePrice);
-    childrenSelect.addEventListener('change', updatePrice);
+        if (!response.ok) {
+            throw new Error('Ошибка сети');
+        }
 
-    updatePrice();
+        return await response.json();
+    }
+
+    showSuccess(message) {
+        this.showNotification(message, 'success');
+    }
+
+    showError(message) {
+        this.showNotification(message, 'error');
+    }
+
+    showNotification(message, type) {
+        const notification = document.createElement('div');
+        notification.className = `notification notification-${type}`;
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            color: white;
+            font-family: "Montserrat-Medium", sans-serif;
+            z-index: 10000;
+            max-width: 400px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        `;
+
+        notification.style.background = type === 'success'
+            ? 'linear-gradient(135deg, #28a745, #20c997)'
+            : 'linear-gradient(135deg, #dc3545, #c82333)';
+
+        notification.textContent = message;
+
+        document.body.appendChild(notification);
+
+        setTimeout(() => {
+            notification.remove();
+        }, 5000);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    new BookingForm();
 });

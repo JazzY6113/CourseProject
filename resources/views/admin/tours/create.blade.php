@@ -3,13 +3,14 @@
 @section('title', 'Создание тура - Nomadic Tour')
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('css/admin/create.css') }}">
-    <script src="{{ asset('js/scripts/image-preview.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/form-styles.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/admin/tours/create.css') }}">
+    <script src="{{ asset('js/scripts/image-preview.js') }}" defer></script>
 @endsection
 
 @section('content')
     <div class="form-container">
-        <a href="{{ route('admin.tours') }}" class="back-link">← Назад к списку туров</a>
         <h1 class="form-title">Создание нового тура</h1>
 
         @if($errors->any())

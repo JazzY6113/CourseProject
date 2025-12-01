@@ -3,8 +3,9 @@
 @section('title', 'Управление бронированиями - Nomadic Tour')
 
 @section('styles')
+    <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
     <link rel="stylesheet" href="{{ asset('css/admin/bookings.css') }}">
-    <script src="{{ asset('js/scripts/admin-bookings.js') }}"></script>
+    <script src="{{ asset('js/scripts/admin-bookings.js') }}" defer></script>
 @endsection
 
 @section('content')

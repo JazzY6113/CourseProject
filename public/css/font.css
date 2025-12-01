@@ -1,26 +1,38 @@
 @font-face {
     font-family: "Roboto-Regular";
-    src: url(../fonts/Roboto-Regular.ttf);
+    src: url(../fonts/Roboto-Regular.ttf) format('truetype');
+    font-display: swap;
 }
 
 @font-face {
     font-family: "Montserrat-Medium";
-    src: url(../fonts/Montserrat-Medium.ttf);
+    src: url(../fonts/Montserrat-Medium.ttf) format('truetype');
+    font-display: swap;
 }
 
 @font-face {
     font-family: "Montserrat-Regular";
-    src: url(../fonts/Montserrat-Regular.ttf);
+    src: url(../fonts/Montserrat-Regular.ttf) format('truetype');
+    font-display: swap;
+}
+
+body {
+    font-family: "Roboto-Regular", Arial, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Montserrat-Regular", Arial, sans-serif;
+    line-height: 1.3;
+    text-align: center;
+    padding: 10px;
 }
 
 a {
-    font-family: "Montserrat-Medium", sans-serif;
+    font-family: "Montserrat-Medium", Arial, sans-serif;
     text-decoration: none;
-    color: black;
+    color: inherit;
 }
 
-p, h1, h2 {
-    font-family: "Roboto-Regular", sans-serif;
-    color: black;
-    line-height: 150%;
+p {
+    line-height: 1.6;
 }

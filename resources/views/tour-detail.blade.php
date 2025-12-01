@@ -5,7 +5,7 @@
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/tour-detail.css') }}">
     <link rel="stylesheet" href="{{ asset('css/form-styles.css') }}">
-    <script src="{{ asset('js/scripts/avatar.js') }}"></script>
+    <script src="{{ asset('js/scripts/tour-details.js') }}" defer></script>
 @endsection
 
 @section('content')
@@ -144,28 +144,19 @@
 
         <div class="tour-additional-info">
             <div class="info-card">
-                <h3>📅 Срок бронирования</h3>
+                <h3>Срок бронирования</h3>
                 <p>За {{ $tour->booking_deadline_days }} {{ trans_choice('день|дня|дней', $tour->booking_deadline_days) }} до начала тура</p>
             </div>
 
             <div class="info-card">
-                <h3>👥 Размер группы</h3>
+                <h3>Размер группы</h3>
                 <p>От {{ $tour->min_group_size }} до {{ $tour->max_group_size }} человек</p>
             </div>
 
             <div class="info-card">
-                <h3>⏱ Продолжительность</h3>
+                <h3>Продолжительность</h3>
                 <p>{{ $tour->duration_days }} {{ trans_choice('день|дня|дней', $tour->duration_days) }}</p>
             </div>
-        </div>
-    </div>
-
-    <div id="successModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Бронирование успешно!</h2>
-            <p>Ваше бронирование было успешно создано. Мы свяжемся с вами в ближайшее время для подтверждения.</p>
-            <button id="closeModal">OK</button>
         </div>
     </div>
 @endsection

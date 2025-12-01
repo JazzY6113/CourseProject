@@ -1,41 +1,68 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const stars = document.querySelectorAll('.star-rating label');
-
-    stars.forEach(star => {
-        star.addEventListener('click', function() {
-            const rating = this.htmlFor.replace('star', '');
-            document.querySelector(`#star${rating}`).checked = true;
-        });
-    });
-});
-
-document.addEventListener('DOMContentLoaded', function() {
-    const commentTextarea = document.getElementById('comment');
-    const charCount = document.getElementById('charCount');
-
-    if (commentTextarea && charCount) {
-        commentTextarea.addEventListener('input', function() {
-            charCount.textContent = this.value.length;
-
-            if (this.value.length > 900) {
-                charCount.style.color = '#dc3545';
-            } else if (this.value.length > 800) {
-                charCount.style.color = '#ffc107';
-            } else {
-                charCount.style.color = '#6c757d';
-            }
-        });
-
-        charCount.textContent = commentTextarea.value.length;
+class StarRating {
+    constructor() {
+        this.ratings = document.querySelectorAll('.star-rating');
+        this.init();
     }
 
-    const form = document.querySelector('.review-form');
-    form.addEventListener('submit', function(e) {
-        const rating = document.querySelector('input[name="rating"]:checked');
-        if (!rating) {
-            e.preventDefault();
-            alert('Пожалуйста, поставьте оценку туру');
-            return false;
-        }
-    });
+    init() {
+        this.ratings.forEach(rating => {
+            this.setupRating(rating);
+        });
+    }
+
+    setupRating(ratingElement) {
+        const stars = ratingElement.querySelectorAll('input[type="radio"]');
+        const labels = ratingElement.querySelectorAll('label');
+
+        stars.forEach((star, index) => {
+            star.addEventListener('change', () => {
+                this.updateRatingDisplay(ratingElement, index + 1);
+            });
+
+            const label = labels[index];
+            label.addEventListener('mouseenter', () => {
+                this.setHoverState(ratingElement, index + 1);
+            });
+        });
+
+        ratingElement.addEventListener('mouseleave', () => {
+            this.clearHoverState(ratingElement);
+        });
+    }
+
+    updateRatingDisplay(ratingElement, rating) {
+        const labels = ratingElement.querySelectorAll('label');
+        labels.forEach((label, index) => {
+            if (index < rating) {
+                label.style.color = '#ffc107';
+            } else {
+                label.style.color = '#ddd';
+            }
+        });
+    }
+
+    setHoverState(ratingElement, hoverIndex) {
+        const labels = ratingElement.querySelectorAll('label');
+        labels.forEach((label, index) => {
+            if (index < hoverIndex) {
+                label.style.color = '#ffc107';
+                label.style.opacity = '0.7';
+            }
+        });
+    }
+
+    clearHoverState(ratingElement) {
+        const checkedInput = ratingElement.querySelector('input:checked');
+        const currentRating = checkedInput ? parseInt(checkedInput.value) : 0;
+        this.updateRatingDisplay(ratingElement, currentRating);
+
+        const labels = ratingElement.querySelectorAll('label');
+        labels.forEach(label => {
+            label.style.opacity = '1';
+        });
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    new StarRating();
 });

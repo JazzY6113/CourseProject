@@ -1,11 +1,12 @@
 @extends('layouts.app')
 
-@section('title', 'Личный кабинет')
+@section('title', 'Личный кабинет - Nomadic Tour')
 
 @section('styles')
+    <link rel="stylesheet" href="{{ asset('css/form-styles.css') }}">
     <link rel="stylesheet" href="{{ asset('css/profile.css') }}">
-    <script src="{{ asset('js/validation.js') }}"></script>
-    <script src="{{ asset('js/scripts/avatar.js') }}"></script>
+    <script src="{{ asset('js/validation.js') }}" defer></script>
+    <script src="{{ asset('js/scripts/avatar.js') }}" defer></script>
 @endsection
 
 @section('content')
@@ -23,7 +24,7 @@
             <fieldset class="form-fieldset">
                 <div class="avatar-section">
                     <div class="avatar-container">
-                        <img src="{{ $user->avatar_url }}" alt="Аватар" class="avatar-image" id="avatarPreview">
+                        <img src="{{ $user->avatar_url }}" alt="Аватар" class="avatar-image" id="avatarPreview" width="140" height="140">
 
                         @if($user->has_custom_avatar)
                             <div class="avatar-actions">

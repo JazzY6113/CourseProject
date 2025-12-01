@@ -1,10 +1,11 @@
 @extends('layouts.app')
 
-@section('title', 'Восстановление пароля')
+@section('title', 'Восстановление пароля - Nomadic Tour')
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('css/forgot-password.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
     <link rel="stylesheet" href="{{ asset('css/form-styles.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/auth/forgot-password.css') }}">
 @endsection
 
 @section('content')

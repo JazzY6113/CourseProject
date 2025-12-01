@@ -3,8 +3,10 @@
 @section('title', 'Модерация отзывов - Nomadic Tour')
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('css/admin/reviews.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
     <link rel="stylesheet" href="{{ asset('css/form-styles.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/admin/reviews.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/reviews.css') }}">
 @endsection
 
 @section('content')

@@ -9,7 +9,7 @@
 @section('content')
     <div class="main-wrapper">
         <div>
-            <p>О НАС<br>расскажут цифры</p>
+            <h1>О НАС<br>расскажут цифры</h1>
         </div>
         <div class="statistics">
             <div class="statist1">

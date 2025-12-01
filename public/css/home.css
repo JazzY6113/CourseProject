@@ -1,108 +1,107 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-main {
-    background: url(../img/background-glawnaya.png)no-repeat center;
+.home-hero {
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+    url('../img/background-glawnaya.png') no-repeat center center;
     background-size: cover;
-    width: 100%;
-    height: 100vh;
-    background-color: #F5F5F5;
-}
-
-.main-wrapper {
-    max-width: 1180px;
-    margin: 0 auto;
-}
-
-.main-wrapper > div > p {
-    text-align: center;
-    font-size: 76pt;
-    padding: 5% 0 0 0;
-    font-family: "Montserrat-Regular", sans-serif;
-}
-
-.main-wrapper > div:last-child {
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10%;
-}
-
-.main-wrapper > div:last-child > div:last-child {
-    display: flex;
-    flex-direction: column;
-    width: 30%;
-}
-
-.main-wrapper > div:last-child > div:first-child > p {
-    font-size: 18pt;
-    line-height: 150%;
-}
-
-.main-wrapper > div:last-child > div:last-child > a {
-    margin: 2% 0 0 0;
-    padding: 5% 10%;
     text-align: center;
-}
-
-.main-wrapper a {
-    font-size: 18pt;
-    border: 1px solid red;
-    border-radius: 30px;
-    padding: 3% 7%;
-    text-align: center;
-    color: black;
-    text-decoration: none;
-    display: inline-block;
-    width: 100%;
-    transition: all 0.3s ease;
-}
-
-.main-wrapper a:hover {
-    background-color: red;
     color: white;
 }
 
-@media (max-width: 850px) {
-    main {
-        height: 70vh;
+.hero-content {
+    max-width: 800px;
+}
+
+.hero-title {
+    font-family: "Montserrat-Regular", sans-serif;
+    font-size: 4rem;
+    margin-bottom: 20px;
+    line-height: 1.1;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.hero-description {
+    font-size: 1.25rem;
+    margin-bottom: 40px;
+    line-height: 1.6;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.hero-actions {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.hero-btn {
+    padding: 15px 30px;
+    border: 2px solid white;
+    border-radius: 30px;
+    color: white;
+    text-decoration: none;
+    font-family: "Montserrat-Medium", sans-serif;
+    font-size: 1.125rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    min-width: 200px;
+    text-align: center;
+}
+
+.hero-btn-primary {
+    backdrop-filter: blur(10px);
+}
+
+.hero-btn-secondary {
+    background: transparent;
+}
+
+.hero-btn:hover {
+    background: white;
+    color: #333;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 768px) {
+    .home-hero {
+        min-height: 60vh;
+        padding: 30px 15px;
     }
 
-    .main-wrapper {
-        gap: 10px;
+    .hero-title {
+        font-size: 2.5rem;
     }
 
-    .main-wrapper > div > p {
-        font-size: 50pt;
+    .hero-description {
+        font-size: 1.125rem;
+        margin-bottom: 30px;
     }
 
-    .main-wrapper > div:last-child {
+    .hero-actions {
         flex-direction: column;
+        align-items: center;
     }
 
-    .main-wrapper > div:first-child > p {
-        font-size: 30pt;
-    }
-
-    .main-wrapper > div:last-child > div:first-child > p {
-        font-size: 14pt;
-    }
-
-    .main-wrapper > div:last-child > div:last-child > a {
-        font-size: 14pt;
-    }
-
-    .main-wrapper > div:last-child > div:last-child > a {
-        color: white;
-        background-color: red;
+    .hero-btn {
+        width: 100%;
+        max-width: 300px;
     }
 }
 
-@media (max-width: 700px) {
-    .main-wrapper > div:last-child > div:first-child {
-        padding: 5% 0 5% 0;
+@media (max-width: 480px) {
+    .hero-title {
+        font-size: 2rem;
+    }
+
+    .hero-description {
+        font-size: 1rem;
+    }
+
+    .hero-btn {
+        padding: 12px 25px;
+        font-size: 1rem;
     }
 }

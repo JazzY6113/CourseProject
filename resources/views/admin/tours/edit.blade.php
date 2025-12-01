@@ -3,13 +3,13 @@
 @section('title', 'Редактирование тура - Nomadic Tour')
 
 @section('styles')
+    <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
     <link rel="stylesheet" href="{{ asset('css/admin/tours/edit.css') }}">
     <link rel="stylesheet" href="{{ asset('css/form-styles.css') }}">
 @endsection
 
 @section('content')
     <div class="form-container">
-        <a href="{{ route('admin.tours') }}" class="back-link">← Назад к списку туров</a>
         <h1 class="form-title">Редактирование тура: {{ $tour->title }}</h1>
 
         @if($errors->any())
@@ -88,7 +88,7 @@
                     @foreach($tour->images as $image)
                         <div class="image-container">
                             <img src="{{ asset('storage/' . $image->image_path) }}"
-                                 alt="Tour image" class="current-image">
+                                 alt="Tour image" class="current-image" width="200" height="200">
                         </div>
                     @endforeach
                 </div>

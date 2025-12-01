@@ -1,133 +1,162 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+.tours-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 30px;
+    padding: 20px 0 40px;
 }
 
-main {
-    width: 100%;
-    height: 100%;
-    background-color: #F5F5F5;
-}
-
-.main-wrapper {
-    max-width: 1180px;
-    margin: 0 auto;
-}
-
-.page-title {
-    display: flex;
-    justify-content: center;
-    padding: 5% 0 5% 0;
-}
-
-.page-title p {
-    font-family: "Montserrat-Regular", sans-serif;
-    font-size: 32pt;
-}
-
-.containers {
-    display: flex;
-    max-width: 1180px;
-    margin: 0 auto;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 1vh;
-    padding: 0 0 5% 0;
-}
-
-.tour-container {
-    background-color: #E5E5E5;
+.tour-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
     display: flex;
     flex-direction: column;
-    width: 379px;
-    border-radius: 30px;
 }
 
-.tour-container p {
-    font-size: 16pt;
-    padding: 10px 15px;
+.tour-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 }
 
 .tour-image {
+    position: relative;
+    height: 250px;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    border-radius: 10px;
-    width: 379px;
-    height: 300px;
     display: flex;
-    align-items: end;
-    justify-content: left;
+    align-items: flex-end;
 }
 
-.tour-image p {
-    color: #ffffff;
-    font-size: 16pt;
-    padding: 5% 0 5% 5%;
+.tour-image::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60%;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
 }
 
-.price-container {
-    background-color: #ffffff;
-    border-radius: 30px;
-    padding: 2% 0 2% 0;
-    margin: 10px 15px;
+.tour-title {
+    position: relative;
+    color: white;
+    font-family: "Montserrat-Medium", sans-serif;
+    font-size: 1.25rem;
+    padding: 20px;
+    margin: 0;
+    z-index: 1;
 }
 
-.price-container p {
-    font-size: 16pt;
+.tour-content {
+    padding: 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.tour-description {
+    color: #666;
+    line-height: 1.5;
+    margin-bottom: 15px;
+    flex-grow: 1;
+}
+
+.tour-price {
+    font-family: "Montserrat-Medium", sans-serif;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #007bff;
     text-align: center;
-    padding: 0;
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 10px 0;
 }
 
 .tour-link {
-    font-size: 18pt;
-    border: 1px solid red;
-    border-radius: 30px;
-    margin: 2% 15px 5% 15px;
-    padding: 5% 10%;
+    display: block;
     text-align: center;
-    background-color: #FFFFFF;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
     text-decoration: none;
-    color: inherit;
+    border-radius: 8px;
+    font-family: "Montserrat-Medium", sans-serif;
+    font-weight: 600;
     transition: all 0.3s ease;
+    margin-top: 10px;
 }
 
 .tour-link:hover {
-    background-color: #f8f8f8;
+    background: linear-gradient(135deg, #20c997, #1e7e34);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+    color: white;
 }
 
 .no-tours {
     text-align: center;
-    padding: 5% 0;
-    font-size: 18pt;
+    padding: 60px 20px;
     color: #666;
 }
 
-@media (min-width: 1921px) {
-    .containers {
-        justify-content: center;
-    }
+.no-tours p {
+    font-size: 1.125rem;
+    margin-bottom: 20px;
 }
 
-@media (max-width: 1172px) {
-    .containers {
-        justify-content: center;
+@media (max-width: 1024px) {
+    .tours-grid {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 25px;
     }
 }
 
 @media (max-width: 768px) {
-    .tour-container {
-        width: 100%;
-        max-width: 379px;
+    .tours-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 15px 0 30px;
     }
 
     .tour-image {
-        width: 100%;
-        height: 250px;
+        height: 200px;
     }
 
-    .page-title p {
-        font-size: 24pt;
+    .tour-title {
+        font-size: 1.125rem;
+        padding: 15px;
+    }
+
+    .tour-content {
+        padding: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .tours-grid {
+        gap: 15px;
+    }
+
+    .tour-image {
+        height: 180px;
+    }
+
+    .tour-title {
+        font-size: 1rem;
+        padding: 12px;
+    }
+
+    .tour-price {
+        font-size: 1.25rem;
+        padding: 12px;
+    }
+
+    .tour-link {
+        padding: 10px 15px;
+        font-size: 0.9rem;
     }
 }

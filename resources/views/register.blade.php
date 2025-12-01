@@ -3,64 +3,111 @@
 @section('title', 'Регистрация - Nomadic Tour')
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('css/register.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
     <link rel="stylesheet" href="{{ asset('css/form-styles.css') }}">
-    <script src="{{ asset('js/validation.js') }}"></script>
+    <script src="{{ asset('js/validation.js') }}" defer></script>
 @endsection
 
 @section('content')
-    <div class="main-wrapper">
-        <form method="POST" action="{{ route('register') }}" class="register-form">
-            @csrf
-            <fieldset class="form-fieldset">
-                <div class="form-container">
-                    <a href="{{ url('/') }}" class="logo-link">
-                        <img src="{{ asset('img/Лого.svg') }}" alt="logo">
+    <div class="auth-page">
+        <div class="auth-container">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <a href="{{ url('/') }}" class="auth-logo">
+                        <img src="{{ asset('img/Лого.svg') }}" alt="Nomadic Tour">
                     </a>
-                    <p class="form-title">Регистрация</p>
-                    <p class="form-subtitle">Введите свои данные</p>
+                    <h1 class="auth-title">Регистрация</h1>
+                    <p class="auth-subtitle">Создайте свой аккаунт</p>
+                </div>
 
-                    <input type="text" id="first_name" name="first_name" placeholder="Имя" value="{{ old('first_name') }}" required class="form-input">
-                    @error('first_name')
-                    <span class="error-message">{{ $message }}</span>
-                    @enderror
+                <form method="POST" action="{{ route('register') }}" class="auth-form">
+                    @csrf
 
-                    <input type="text" id="last_name" name="last_name" placeholder="Фамилия" value="{{ old('last_name') }}" required class="form-input">
-                    @error('last_name')
-                    <span class="error-message">{{ $message }}</span>
-                    @enderror
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="first_name" class="form-label">Имя</label>
+                            <input type="text" id="first_name" name="first_name"
+                                   value="{{ old('first_name') }}"
+                                   class="form-input"
+                                   placeholder="Иван"
+                                   required
+                                   data-validate="cyrillic">
+                            @error('first_name')
+                            <span class="error-message">{{ $message }}</span>
+                            @enderror
+                        </div>
 
-                    <input type="text" id="patronymic" name="patronymic" placeholder="Отчество (необязательно)" value="{{ old('patronymic') }}" class="form-input">
-
-                    <input type="email" id="email" name="email" placeholder="E-mail" value="{{ old('email') }}" required class="form-input">
-                    @error('email')
-                    <span class="error-message">{{ $message }}</span>
-                    @enderror
-
-                    <input type="password" id="password" name="password" placeholder="Пароль" required class="form-input">
-                    @error('password')
-                    <span class="error-message">{{ $message }}</span>
-                    @enderror
-
-                    <input type="password" id="password_confirmation" name="password_confirmation" placeholder="Повторите пароль" required class="form-input">
-
-                    <div class="form-footer">
-                        <p class="privacy-text">
-                            Нажимая на кнопку,
-                            вы даете согласие на обработку своих персональных данных и
-                            соглашаетесь
-                            <a href="" class="privacy-link">c политикой конфиденциальности</a>.
-                        </p>
+                        <div class="form-group">
+                            <label for="last_name" class="form-label">Фамилия</label>
+                            <input type="text" id="last_name" name="last_name"
+                                   value="{{ old('last_name') }}"
+                                   class="form-input"
+                                   placeholder="Иванов"
+                                   required
+                                   data-validate="cyrillic">
+                            @error('last_name')
+                            <span class="error-message">{{ $message }}</span>
+                            @enderror
+                        </div>
                     </div>
-                    <button type="submit" class="submit-button">
-                        <span class="button-text">Зарегистрироваться</span>
+
+                    <div class="form-group">
+                        <label for="patronymic" class="form-label">Отчество (необязательно)</label>
+                        <input type="text" id="patronymic" name="patronymic"
+                               value="{{ old('patronymic') }}"
+                               class="form-input"
+                               placeholder="Иванович">
+                        @error('patronymic')
+                        <span class="error-message">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email" class="form-label">E-mail</label>
+                        <input type="email" id="email" name="email"
+                               value="{{ old('email') }}"
+                               class="form-input"
+                               placeholder="your@email.com"
+                               required
+                               data-validate="email">
+                        @error('email')
+                        <span class="error-message">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password" class="form-label">Пароль</label>
+                        <input type="password" id="password" name="password"
+                               class="form-input"
+                               placeholder="Создайте пароль"
+                               required>
+                        @error('password')
+                        <span class="error-message">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password_confirmation" class="form-label">Подтверждение пароля</label>
+                        <input type="password" id="password_confirmation" name="password_confirmation"
+                               class="form-input"
+                               placeholder="Повторите пароль"
+                               required>
+                    </div>
+
+                    <div class="privacy-text">
+                        Нажимая на кнопку, вы даете согласие на обработку своих персональных данных и соглашаетесь
+                        <a href="#" class="privacy-link">с политикой конфиденциальности</a>.
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block">
+                        Зарегистрироваться
                     </button>
 
-                    <div class="login-redirect">
-                        <p>Уже есть аккаунт? <a href="{{ route('login') }}" class="login-link">Войти</a></p>
+                    <div class="auth-footer">
+                        <p>Уже есть аккаунт? <a href="{{ route('login') }}" class="auth-link">Войти</a></p>
                     </div>
-                </div>
-            </fieldset>
-        </form>
+                </form>
+            </div>
+        </div>
     </div>
 @endsection

@@ -5,14 +5,13 @@
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/reviews-create.css') }}">
     <link rel="stylesheet" href="{{ asset('css/form-styles.css') }}">
-    <script src="{{ asset('js/scripts/star-rating.js') }}"></script>
+    <script src="{{ asset('js/scripts/star-rating.js') }}" defer></script>
 @endsection
 
 @section('content')
     <div class="main-wrapper">
         <div class="page-header">
             <h1>ОСТАВИТЬ ОТЗЫВ</h1>
-            <p>Поделитесь вашими впечатлениями о путешествии</p>
         </div>
 
         <div class="review-form-container">
@@ -81,16 +80,16 @@
 
                 <div class="form-actions">
                     <button type="submit" class="btn-primary">
-                        📨 Отправить на модерацию
+                        Отправить на модерацию
                     </button>
                     <a href="{{ route('reviews') }}" class="btn-secondary">
-                        ↩️ Вернуться к отзывам
+                        Вернуться к отзывам
                     </a>
                 </div>
 
                 <div class="form-note">
                     <small>
-                        💡 <strong>Важно:</strong> Все отзывы проходят модерацию перед публикацией.
+                        <strong>Важно:</strong> Все отзывы проходят модерацию перед публикацией.
                         Это помогает нам поддерживать качество и достоверность отзывов на сайте.
                         Обычно модерация занимает до 24 часов.
                     </small>

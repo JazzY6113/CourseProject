@@ -42,7 +42,7 @@ main {
 
 .statist1 > p:last-child, .statist2 > p:last-child, .statist3 > p:last-child {
     text-align: center;
-    font-size: 30pt;
+    font-size: 24pt;
 }
 
 .o-nas1 > p, .o-nas2 > p, .o-nas3 > p {

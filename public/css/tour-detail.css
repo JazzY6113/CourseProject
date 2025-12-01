@@ -5,7 +5,7 @@
 }
 
 .breadcrumbs {
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     font-size: 14px;
     color: #666;
 }
@@ -13,9 +13,11 @@
 .breadcrumbs a {
     color: #007bff;
     text-decoration: none;
+    transition: color 0.3s ease;
 }
 
 .breadcrumbs a:hover {
+    color: #0056b3;
     text-decoration: underline;
 }
 
@@ -24,9 +26,11 @@
 }
 
 .tour-title {
+    font-family: "Montserrat-Regular", sans-serif;
     font-size: 2.5rem;
     color: #333;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+    line-height: 1.2;
 }
 
 .tour-meta {
@@ -37,41 +41,50 @@
 }
 
 .tour-gallery {
-    margin-bottom: 30px;
+    margin-bottom: 40px;
 }
 
 .main-image {
     width: 100%;
     height: 400px;
-    margin-bottom: 10px;
-    border-radius: 8px;
+    margin-bottom: 15px;
+    border-radius: 12px;
     overflow: hidden;
+    position: relative;
 }
 
 .main-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.main-image:hover img {
+    transform: scale(1.02);
 }
 
 .image-thumbnails {
     display: flex;
     gap: 10px;
     overflow-x: auto;
+    padding: 10px 0;
 }
 
 .thumbnail {
     width: 80px;
     height: 80px;
-    border-radius: 4px;
+    border-radius: 8px;
     overflow: hidden;
     cursor: pointer;
     border: 2px solid transparent;
     opacity: 0.7;
     transition: all 0.3s ease;
+    flex-shrink: 0;
 }
 
-.thumbnail.active {
+.thumbnail.active,
+.thumbnail:hover {
     border-color: #007bff;
     opacity: 1;
 }
@@ -89,31 +102,42 @@
     margin-bottom: 40px;
 }
 
+.tour-main-info {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
 .tour-description-section h2,
 .tour-dates-section h2 {
+    font-family: "Montserrat-Regular", sans-serif;
+    font-size: 1.5rem;
     color: #333;
     margin-bottom: 15px;
-    font-size: 1.5rem;
 }
 
 .full-description {
-    line-height: 1.6;
+    line-height: 1.7;
     color: #555;
-    margin-bottom: 30px;
+    font-size: 1.0625rem;
+}
+
+.full-description p {
+    margin-bottom: 15px;
 }
 
 .dates-list {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
 }
 
 .date-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px;
-    border: 1px solid #ddd;
+    padding: 20px;
+    border: 2px solid #e9ecef;
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -132,49 +156,46 @@
 .date-info {
     display: flex;
     flex-direction: column;
+    gap: 5px;
 }
 
 .date-range {
-    font-weight: bold;
+    font-family: "Montserrat-Medium", sans-serif;
+    font-weight: 600;
     color: #333;
 }
 
 .seats-available {
-    font-size: 12px;
+    font-size: 14px;
     color: #666;
 }
 
 .date-price {
-    font-weight: bold;
+    font-family: "Montserrat-Medium", sans-serif;
+    font-weight: 600;
     color: #007bff;
-    font-size: 1.1rem;
-}
-
-.no-dates {
-    color: #666;
-    font-style: italic;
-    text-align: center;
-    padding: 20px;
+    font-size: 1.125rem;
 }
 
 .booking-section {
     position: sticky;
     top: 20px;
+    height: fit-content;
 }
 
 .booking-card {
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
+    background: white;
+    border: 2px solid #e9ecef;
+    border-radius: 12px;
     padding: 25px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
 .price-info {
     text-align: center;
     margin-bottom: 25px;
     padding-bottom: 20px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #e9ecef;
 }
 
 .price-label {
@@ -188,6 +209,7 @@
     font-size: 2.5rem;
     font-weight: bold;
     color: #007bff;
+    line-height: 1;
 }
 
 .price-currency {
@@ -195,78 +217,49 @@
     color: #666;
 }
 
-.form-group {
+.available-dates {
     margin-bottom: 20px;
 }
 
-.form-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
+.available-dates h3 {
+    font-family: "Montserrat-Regular", sans-serif;
+    font-size: 1.25rem;
+    margin-bottom: 15px;
     color: #333;
 }
 
-.form-group input,
-.form-group select,
-.form-group textarea {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 14px;
-    box-sizing: border-box;
-}
-
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-    outline: none;
-    border-color: #007bff;
-}
-
-.total-price {
-    text-align: center;
-    margin: 25px 0;
+.date-option {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     padding: 15px;
-    background-color: #f8f9fa;
-    border-radius: 4px;
-    font-size: 1.2rem;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    margin-bottom: 10px;
 }
 
-.book-button {
-    width: 100%;
-    padding: 15px;
-    background-color: #007bff;
+.date-option:last-child {
+    margin-bottom: 0;
+}
+
+.book-date-btn {
+    background: linear-gradient(135deg, #28a745, #20c997);
     color: white;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.book-button:hover:not(:disabled) {
-    background-color: #0056b3;
-}
-
-.book-button:disabled {
-    background-color: #6c757d;
-    cursor: not-allowed;
-}
-
-.auth-required {
-    text-align: center;
-    padding: 20px;
-}
-
-.auth-required a {
-    color: #007bff;
+    padding: 10px 20px;
+    border-radius: 6px;
     text-decoration: none;
+    font-family: "Montserrat-Medium", sans-serif;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    margin-left: 15px;
 }
 
-.auth-required a:hover {
-    text-decoration: underline;
+.book-date-btn:hover {
+    background: linear-gradient(135deg, #20c997, #1e7e34);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+    color: white;
 }
 
 .tour-additional-info {
@@ -278,12 +271,15 @@
 
 .info-card {
     background: #f8f9fa;
-    padding: 20px;
-    border-radius: 8px;
+    padding: 25px;
+    border-radius: 12px;
     text-align: center;
+    border-left: 4px solid #007bff;
 }
 
 .info-card h3 {
+    font-family: "Montserrat-Regular", sans-serif;
+    font-size: 1.125rem;
     margin-bottom: 10px;
     color: #333;
 }
@@ -291,64 +287,80 @@
 .info-card p {
     color: #666;
     margin: 0;
+    font-size: 0.9375rem;
 }
 
-/* Модальное окно */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.5);
-}
-
-.modal-content {
-    background-color: #fff;
-    margin: 15% auto;
-    padding: 30px;
-    border-radius: 8px;
-    width: 90%;
-    max-width: 500px;
-    text-align: center;
-    position: relative;
-}
-
-.close {
-    position: absolute;
-    right: 15px;
-    top: 15px;
-    font-size: 24px;
-    cursor: pointer;
-    color: #aaa;
-}
-
-.close:hover {
-    color: #000;
-}
-
-/* Адаптивность */
-@media (max-width: 768px) {
+@media (max-width: 968px) {
     .tour-content {
         grid-template-columns: 1fr;
-        gap: 20px;
-    }
-
-    .tour-title {
-        font-size: 2rem;
-    }
-
-    .main-image {
-        height: 300px;
+        gap: 30px;
     }
 
     .booking-section {
         position: static;
     }
 
+    .tour-title {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .tour-detail-wrapper {
+        padding: 15px;
+    }
+
+    .tour-title {
+        font-size: 1.75rem;
+    }
+
+    .main-image {
+        height: 300px;
+    }
+
+    .tour-meta {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .date-option {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .book-date-btn {
+        margin-left: 0;
+        width: 100%;
+        text-align: center;
+    }
+
     .tour-additional-info {
         grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .tour-title {
+        font-size: 1.5rem;
+    }
+
+    .main-image {
+        height: 250px;
+    }
+
+    .price-amount {
+        font-size: 2rem;
+    }
+
+    .date-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .thumbnail {
+        width: 60px;
+        height: 60px;
     }
 }

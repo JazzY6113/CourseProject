@@ -15,12 +15,9 @@ class TourController extends Controller
     public function index()
     {
         $tours = Tour::where('is_active', true)
-            ->with(['images', 'tourDates' => function($query) {
-                $query->where('start_date', '>', now())
-                    ->where('available_seats', '>', 0)
-                    ->orderBy('start_date');
-            }])
-            ->get();
+            ->with('images')
+            ->orderBy('created_at', 'desc')
+            ->paginate(12);
 
         return view('tour', compact('tours'));
     }
@@ -31,7 +28,10 @@ class TourController extends Controller
             abort(403, 'Доступ запрещен');
         }
 
-        $tours = Tour::with(['images', 'tourDates'])->get();
+        $tours = Tour::with(['images', 'tourDates'])
+            ->orderBy('created_at', 'desc')
+            ->paginate(20);
+
         return view('admin.tours.index', compact('tours'));
     }
 

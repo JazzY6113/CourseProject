@@ -5,18 +5,11 @@
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/booking.css') }}">
     <link rel="stylesheet" href="{{ asset('css/form-styles.css') }}">
-    <script src="{{ asset('js/scripts/booking-form.js') }}"></script>
+    <script src="{{ asset('js/scripts/booking-form.js') }}" defer></script>
 @endsection
 
 @section('content')
     <div class="booking-container">
-        <div class="breadcrumbs">
-            <a href="{{ route('home') }}">Главная</a> >
-            <a href="{{ route('tour') }}">Туры</a> >
-            <a href="{{ route('tour.detail', $tourDate->tour->id) }}">{{ $tourDate->tour->title }}</a> >
-            <span>Бронирование</span>
-        </div>
-
         <h1 class="booking-title">Бронирование тура: {{ $tourDate->tour->title }}</h1>
 
         <div class="booking-content">
@@ -40,7 +33,7 @@
                     </div>
                     @if($tourDate->is_guaranteed)
                         <div class="guaranteed-badge">
-                            ✅ Гарантированный departure
+                            ✅ Гарантированное отправление
                         </div>
                     @endif
                 </div>
