@@ -23,7 +23,7 @@ class ProfileController extends Controller
             'last_name'  => 'required|string|max:255',
             'patronymic' => 'nullable|string|max:255',
             'email'      => 'required|email|unique:users,email,' . $user->id,
-            'avatar'     => 'nullable|image|mimes:jpg,jpeg,png|max:2048', // 2MB max
+            'avatar'     => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         try {

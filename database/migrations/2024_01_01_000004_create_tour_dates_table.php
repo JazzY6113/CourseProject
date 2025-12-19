@@ -13,8 +13,8 @@ return new class extends Migration {
             $table->date('end_date');
             $table->integer('available_seats');
             $table->decimal('current_price', 10, 2);
-            $table->boolean('is_guaranteed')->default(false); // гарантированный departure
-            $table->text('notes')->nullable(); // особые примечания к дате
+            $table->boolean('is_guaranteed')->default(false);
+            $table->text('notes')->nullable();
             $table->timestamps();
 
             $table->index(['start_date', 'available_seats']);

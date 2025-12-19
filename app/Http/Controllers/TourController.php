@@ -212,7 +212,6 @@ class TourController extends Controller
                 $image->delete();
             }
 
-            // Добавляем новые
             foreach ($request->file('images') as $index => $image) {
                 $path = $image->store('tour-images', 'public');
 

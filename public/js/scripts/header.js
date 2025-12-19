@@ -12,7 +12,6 @@ class HeaderMenu {
     }
 
     setupEventListeners() {
-        // Клик по бургеру
         this.burger.addEventListener('click', (e) => {
             e.stopPropagation();
             this.toggleMenu();

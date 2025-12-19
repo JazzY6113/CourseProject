@@ -19,12 +19,6 @@
             </div>
         </div>
 
-        @if(session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-        @endif
-
         @if($tours->count() > 0)
             <table class="admin-table">
                 <thead>

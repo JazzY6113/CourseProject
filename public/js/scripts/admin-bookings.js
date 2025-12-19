@@ -10,7 +10,6 @@ function showBookingDetails(bookingId) {
             const modal = document.getElementById('bookingModal');
             const details = document.getElementById('bookingDetails');
 
-            // Форматируем даты
             const startDate = new Date(data.booking.tour_date.start_date).toLocaleDateString('ru-RU');
             const endDate = new Date(data.booking.tour_date.end_date).toLocaleDateString('ru-RU');
             const createdDate = new Date(data.booking.created_at).toLocaleDateString('ru-RU');
